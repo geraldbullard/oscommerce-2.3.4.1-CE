@@ -27,7 +27,9 @@ $oscTemplate->buildBlocks();
  $mtime = filemtime('includes/stylesheet.css');
 ?>
 <link rel="stylesheet" type="text/css" href="includes/stylesheet.css?mod=<?php echo $mtime; ?>">
-
+<?php if (!tep_session_is_registered('admin')) { ?>
+<link rel="stylesheet" type="text/css" href="includes/login.css?mod=<?php echo $mtime;?>">
+<?php } ?>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <!--[if IE]><script type="text/javascript" src="<?php echo tep_catalog_href_link('ext/flot/excanvas.min.js', '', 'SSL'); ?>"></script><![endif]-->
 <!-- <link rel="stylesheet" type="text/css" href="<?php echo tep_catalog_href_link('ext/jquery/ui/redmond/jquery-ui-1.10.4.min.css', '', 'SSL'); ?>"> -->
@@ -50,12 +52,11 @@ $oscTemplate->buildBlocks();
     <div id="bodyWrapper">
         <div class="container-fluid">
             <div class="row">
-
 <?php
 	if (tep_session_is_registered('admin')) {
-        include('includes/column_left.php');
+    include('includes/column_left.php');
 		echo '<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">';	  
 	} else {
-		echo '<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">';
+		echo '<main role="main" class="col-md-8 mx-auto px-4">';
 	}
 ?>

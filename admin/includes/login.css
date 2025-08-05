@@ -1,0 +1,38 @@
+/*
+  $Id$
+
+  osCommerce, Open Source E-Commerce Solutions
+  http://www.oscommerce.com
+
+  Copyright (c) 2018 osCommerce
+
+  Released under the GNU General Public License
+
+*/
+
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #f1f1fa;
+  background-image:
+    repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 40px),
+    repeating-linear-gradient(rgba(68, 76, 247, 0.005), rgba(68, 76, 247, 0.01));
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+main.col-md-8.mx-auto.px-4 > table {
+  background-color: white;
+  border-spacing: 0; /* optional: removes spacing between cells */
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  border-radius: 0.5rem; /* optional: soft rounded corners */
+  overflow: hidden; /* helps with border-radius on some browsers */
+}
+
+main.col-md-8.mx-auto.px-4 table td,
+main.col-md-8.mx-auto.px-4 table th {
+  padding: 0.8rem; /* adjust as needed */
+  border: 0;
+}
