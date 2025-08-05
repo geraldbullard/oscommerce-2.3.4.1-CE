@@ -14,7 +14,7 @@
 // Class to handle currencies
 // TABLES: currencies
   class currencies {
-    var $currencies;
+    public $currencies;
 
 // class constructor
     function __construct() {

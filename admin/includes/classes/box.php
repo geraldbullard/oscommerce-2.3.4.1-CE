@@ -24,7 +24,9 @@
 */
 
   class box extends tableBlock {
-	function __construct() {
+    public $table_row_parameters, $table_data_parameters, $heading, $contents;
+    
+	  function __construct() {
       $this->heading = array();
       $this->contents = array();
     }

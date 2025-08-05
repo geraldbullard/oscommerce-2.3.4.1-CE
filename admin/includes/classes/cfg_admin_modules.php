@@ -11,7 +11,7 @@
 */
 
   class cfg_admin_modules {
-    var $_modules = array();
+    public $_modules = array();
 
     function __construct() {
       global $PHP_SELF, $language;

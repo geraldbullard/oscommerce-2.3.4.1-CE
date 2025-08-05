@@ -16,11 +16,12 @@
 */
 
   class mime {
-    var $_encoding;
-    var $_subparts;
-    var $_encoded;
-    var $_headers;
-    var $_body;
+    public $_encoding;
+    public $_subparts;
+    public $_encoded;
+    public $_headers;
+    public $_body;
+    public $lf;
 
 /**
  * Constructor.

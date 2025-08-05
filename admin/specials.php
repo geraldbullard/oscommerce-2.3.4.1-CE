@@ -80,7 +80,7 @@
 <?php
   if (empty($action)) {
 ?>
-		<div class="float-right"><?php echo tep_draw_button(IMAGE_NEW_PRODUCT, 'plus', tep_href_link('specials.php', 'page=' . $_GET['page'] . '&action=new')); ?></div>
+		<div class="float-right"><?php echo tep_draw_button(IMAGE_NEW_PRODUCT, 'plus', tep_href_link('specials.php', 'page=' . (isset($_GET['page']) && $_GET['page'] > '1' ? $_GET['page'] : '1') . '&action=new')); ?></div>
 <?php
   }
 ?>
@@ -122,7 +122,15 @@
 				</tr>
 				<tr>
 					<td class="main"><?php echo TEXT_SPECIALS_EXPIRES_DATE; ?>&nbsp;</td>
-					<td class="main"><?php echo tep_draw_input_field('expdate', (tep_not_null($sInfo->expires_date) ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2) : ''), 'id="expdate"') . ' <small>(YYYY-MM-DD)</small>'; ?></td>
+					<td class="main"><?php 
+          echo tep_draw_input_field(
+            'expdate',
+            (isset($sInfo->expires_date) && tep_not_null($sInfo->expires_date)
+              ? substr($sInfo->expires_date, 0, 4) . '-' . substr($sInfo->expires_date, 5, 2) . '-' . substr($sInfo->expires_date, 8, 2)
+              : ''
+            ),
+            'id="expdate"'
+          ) . ' <small>(YYYY-MM-DD)</small>'; ?></td>
 				</tr>
 <script type="text/javascript">
 $('#expdate').datepicker({

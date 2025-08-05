@@ -11,7 +11,7 @@
 */
 
   class shoppingCart {
-    var $contents, $total, $weight;
+    public $contents, $total, $weight;
 
     function __construct() {
 		}

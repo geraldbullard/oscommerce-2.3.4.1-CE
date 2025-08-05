@@ -13,6 +13,8 @@
   require(DIR_FS_CATALOG . 'includes/classes/action_recorder.php');
 
   class actionRecorderAdmin extends actionRecorder {
+    public $_module = '';
+    
     function __construct($module, $user_id = null, $user_name = null) {
       global $language, $PHP_SELF;
 

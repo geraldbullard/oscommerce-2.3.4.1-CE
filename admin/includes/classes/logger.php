@@ -11,7 +11,7 @@
 */
 
   class logger {
-    var $timer_start, $timer_stop, $timer_total;
+    public $timer_start, $timer_stop, $timer_total;
 
 // class constructor
     function __construct() {

@@ -1,6 +1,6 @@
 <?php
   class paymentModuleInfo {
-    var $payment_code, $keys;
+    public $payment_code, $keys;
 
 // class constructor
     function paymentModuleInfo($pmInfo_array) {

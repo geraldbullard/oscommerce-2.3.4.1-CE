@@ -11,7 +11,7 @@
 */
 
   class order {
-    var $info, $totals, $products, $customer, $delivery;
+    public $info, $totals, $products, $customer, $delivery, $billing;
 
     function __construct($order_id) {
       $this->info = array();
