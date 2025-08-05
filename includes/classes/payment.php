@@ -11,7 +11,7 @@
 */
 
   class payment {
-    var $modules, $selected_module;
+    public $modules, $selected_module, $form_action_url;
 
 // class constructor
     function __construct($module = '') {

@@ -11,7 +11,7 @@
 */
 
   class ot_loworderfee {
-    var $title, $output;
+    public $title, $output, $code, $description, $enabled, $sort_order;
 
     function __construct() {
       $this->code = 'ot_loworderfee';

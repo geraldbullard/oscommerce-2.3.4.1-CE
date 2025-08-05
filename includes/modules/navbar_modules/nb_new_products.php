@@ -11,12 +11,12 @@
 */
 
   class nb_new_products {
-    var $code = 'nb_new_products';
-    var $group = 'navbar_modules_home';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;    
+    public $code = 'nb_new_products';
+    public $group = 'navbar_modules_home';
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;    
     
     function __construct() {
       $this->title = MODULE_NAVBAR_NEW_PRODUCTS_TITLE;

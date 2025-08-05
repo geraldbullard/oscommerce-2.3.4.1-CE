@@ -11,7 +11,7 @@
 */
 
   class cc_validation {
-    var $cc_type, $cc_number, $cc_expiry_month, $cc_expiry_year;
+    public $cc_type, $cc_number, $cc_expiry_month, $cc_expiry_year;
 
     function validate($number, $expiry_m, $expiry_y) {
       $this->cc_number = preg_replace('/[^0-9]/', '', $number);

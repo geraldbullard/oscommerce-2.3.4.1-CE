@@ -11,13 +11,13 @@
 */
 
   class oscTemplate {
-    var $_title;
-    var $_blocks = array();
-    var $_content = array();
-    var $_grid_container_width = 12;
-    var $_grid_content_width = BOOTSTRAP_CONTENT;
-    var $_grid_column_width = 0; // deprecated
-    var $_data = array();
+    public $_title;
+    public $_blocks = array();
+    public $_content = array();
+    public $_grid_container_width = 12;
+    public $_grid_content_width = BOOTSTRAP_CONTENT;
+    public $_grid_column_width = 0; // deprecated
+    public $_data = array();
 
     function __construct() {
       $this->_title = TITLE;

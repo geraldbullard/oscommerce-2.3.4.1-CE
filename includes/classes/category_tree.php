@@ -9,25 +9,25 @@
   class category_tree {
     protected $_data = array();
 
-    var $root_category_id = 0,
-        $max_level = 0,
-        $root_start_string = '',
-        $root_end_string = '',
-        $parent_start_string = '',
-        $parent_end_string = '',
-        $parent_group_start_string = '<ul>',
-        $parent_group_end_string = '</ul>',
-        $parent_group_apply_to_root = false,
-        $child_start_string = '<li>',
-        $child_end_string = '</li>',
-        $breadcrumb_separator = '_',
-        $breadcrumb_usage = true,
-        $spacer_string = '',
-        $spacer_multiplier = 1,
-        $follow_cpath = false,
-        $cpath_array = array(),
-        $cpath_start_string = '',
-        $cpath_end_string = '';
+    public $root_category_id = 0,
+           $max_level = 0,
+           $root_start_string = '',
+           $root_end_string = '',
+           $parent_start_string = '',
+           $parent_end_string = '',
+           $parent_group_start_string = '<ul>',
+           $parent_group_end_string = '</ul>',
+           $parent_group_apply_to_root = false,
+           $child_start_string = '<li>',
+           $child_end_string = '</li>',
+           $breadcrumb_separator = '_',
+           $breadcrumb_usage = true,
+           $spacer_string = '',
+           $spacer_multiplier = 1,
+           $follow_cpath = false,
+           $cpath_array = array(),
+           $cpath_start_string = '',
+           $cpath_end_string = '';
 
     public function __construct() {
       global $languages_id;

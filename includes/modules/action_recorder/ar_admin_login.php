@@ -11,13 +11,13 @@
 */
 
   class ar_admin_login {
-    var $code = 'ar_admin_login';
-    var $title;
-    var $description;
-    var $sort_order = 0;
-    var $minutes = 5;
-    var $attempts = 3;
-    var $identifier;
+    public $code = 'ar_admin_login';
+    public $title;
+    public $description;
+    public $sort_order = 0;
+    public $minutes = 5;
+    public $attempts = 3;
+    public $identifier;
 
     function __construct() {
       $this->title = MODULE_ACTION_RECORDER_ADMIN_LOGIN_TITLE;

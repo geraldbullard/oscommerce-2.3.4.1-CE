@@ -95,7 +95,8 @@
 */
 
   class zones {
-    var $code, $title, $description, $enabled, $num_zones;
+    public $code, $title, $description, $enabled, $num_zones, $sort_order, $icon, $tax_class, $_check;
+    public $quotes = array();
 
 // class constructor
     function __construct() {

@@ -11,12 +11,12 @@
 */
 
   class nb_special_offers {
-    var $code = 'nb_special_offers';
-    var $group = 'navbar_modules_home';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;    
+    public $code = 'nb_special_offers';
+    public $group = 'navbar_modules_home';
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;    
     
     function __construct() {
       $this->title = MODULE_NAVBAR_SPECIAL_OFFERS_TITLE;

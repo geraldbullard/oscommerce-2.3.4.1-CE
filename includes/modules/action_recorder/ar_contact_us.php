@@ -11,12 +11,12 @@
 */
 
   class ar_contact_us {
-    var $code = 'ar_contact_us';
-    var $title;
-    var $description;
-    var $sort_order = 0;
-    var $minutes = 15;
-    var $identifier;
+    public $code = 'ar_contact_us';
+    public $title;
+    public $description;
+    public $sort_order = 0;
+    public $minutes = 15;
+    public $identifier;
 
     function __construct() {
       $this->title = MODULE_ACTION_RECORDER_CONTACT_US_TITLE;

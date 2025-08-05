@@ -11,12 +11,12 @@
 */
 
   class nb_languages {
-    var $code = 'nb_languages';
-    var $group = 'navbar_modules_right';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;    
+    public $code = 'nb_languages';
+    public $group = 'navbar_modules_right';
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;    
     
     function __construct() {
       $this->title = MODULE_NAVBAR_LANGUAGES_TITLE;

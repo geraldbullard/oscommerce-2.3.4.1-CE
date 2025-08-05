@@ -11,7 +11,7 @@
 */
 
   class splitPageResults {
-    var $sql_query, $number_of_rows, $current_page_number, $number_of_pages, $number_of_rows_per_page, $page_name;
+    public $sql_query, $number_of_rows, $current_page_number, $number_of_pages, $number_of_rows_per_page, $page_name;
 
 /* class constructor */
     function __construct($query, $max_rows, $count_key = '*', $page_holder = 'page') {

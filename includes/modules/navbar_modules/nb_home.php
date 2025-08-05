@@ -11,12 +11,12 @@
 */
 
   class nb_home {
-    var $code = 'nb_home';
-    var $group = 'navbar_modules_home';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;    
+    public $code = 'nb_home';
+    public $group = 'navbar_modules_home';
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;    
     
     function __construct() {
       $this->title = MODULE_NAVBAR_HOME_TITLE;

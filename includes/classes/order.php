@@ -11,7 +11,7 @@
 */
 
   class order {
-    var $info, $totals, $products, $customer, $delivery, $content_type;
+    public $info, $totals, $products, $customer, $delivery, $content_type, $billing;
 
     function __construct($order_id = '') {
       $this->info = array();
@@ -219,64 +219,76 @@
                           'cc_owner' => '',
                           'cc_number' => '',
                           'cc_expires' => '',
-                          'shipping_method' => $shipping['title'],
-                          'shipping_cost' => $shipping['cost'],
+                          'shipping_method' => (isset($shipping) && !empty($shipping) ? $shipping['title'] : ''),
+                          'shipping_cost' => (isset($shipping) && !empty($shipping) ? $shipping['cost'] : ''),
                           'subtotal' => 0,
                           'tax' => 0,
                           'tax_groups' => array(),
                           'comments' => (tep_session_is_registered('comments') && !empty($comments) ? $comments : ''));
 
-      if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
-        if (isset($GLOBALS[$payment]->public_title)) {
-          $this->info['payment_method'] = $GLOBALS[$payment]->public_title;
+        if (isset($GLOBALS[$payment]) && is_object($GLOBALS[$payment])) {
+          if (isset($GLOBALS[$payment]->public_title)) {
+            $this->info['payment_method'] = $GLOBALS[$payment]->public_title;
+          } else {
+            $this->info['payment_method'] = $GLOBALS[$payment]->title;
+          }
+
+          if ( isset($GLOBALS[$payment]->order_status) && is_numeric($GLOBALS[$payment]->order_status) && ($GLOBALS[$payment]->order_status > 0) ) {
+            $this->info['order_status'] = $GLOBALS[$payment]->order_status;
+          }
+        }
+
+        if (is_array($customer_address)) {
+          $this->customer = array('firstname' => $customer_address['customers_firstname'],
+                                  'lastname' => $customer_address['customers_lastname'],
+                                  'company' => $customer_address['entry_company'],
+                                  'street_address' => $customer_address['entry_street_address'],
+                                  'suburb' => $customer_address['entry_suburb'],
+                                  'city' => $customer_address['entry_city'],
+                                  'postcode' => $customer_address['entry_postcode'],
+                                  'state' => ((tep_not_null($customer_address['entry_state'])) ? $customer_address['entry_state'] : $customer_address['zone_name']),
+                                  'zone_id' => $customer_address['entry_zone_id'],
+                                  'country' => array('id' => $customer_address['countries_id'], 'title' => $customer_address['countries_name'], 'iso_code_2' => $customer_address['countries_iso_code_2'], 'iso_code_3' => $customer_address['countries_iso_code_3']),
+                                  'format_id' => $customer_address['address_format_id'],
+                                  'telephone' => $customer_address['customers_telephone'],
+                                  'email_address' => $customer_address['customers_email_address']);
         } else {
-          $this->info['payment_method'] = $GLOBALS[$payment]->title;
+          $this->customer = [];
         }
 
-        if ( isset($GLOBALS[$payment]->order_status) && is_numeric($GLOBALS[$payment]->order_status) && ($GLOBALS[$payment]->order_status > 0) ) {
-          $this->info['order_status'] = $GLOBALS[$payment]->order_status;
+        if (is_array($shipping_address)) {
+          $this->delivery = array('firstname' => $shipping_address['entry_firstname'],
+                                  'lastname' => $shipping_address['entry_lastname'],
+                                  'company' => $shipping_address['entry_company'],
+                                  'street_address' => $shipping_address['entry_street_address'],
+                                  'suburb' => $shipping_address['entry_suburb'],
+                                  'city' => $shipping_address['entry_city'],
+                                  'postcode' => $shipping_address['entry_postcode'],
+                                  'state' => ((tep_not_null($shipping_address['entry_state'])) ? $shipping_address['entry_state'] : $shipping_address['zone_name']),
+                                  'zone_id' => $shipping_address['entry_zone_id'],
+                                  'country' => array('id' => $shipping_address['countries_id'], 'title' => $shipping_address['countries_name'], 'iso_code_2' => $shipping_address['countries_iso_code_2'], 'iso_code_3' => $shipping_address['countries_iso_code_3']),
+                                  'country_id' => $shipping_address['entry_country_id'],
+                                  'format_id' => $shipping_address['address_format_id']);
+        } else {
+          $this->delivery = [];
         }
-      }
 
-      $this->customer = array('firstname' => $customer_address['customers_firstname'],
-                              'lastname' => $customer_address['customers_lastname'],
-                              'company' => $customer_address['entry_company'],
-                              'street_address' => $customer_address['entry_street_address'],
-                              'suburb' => $customer_address['entry_suburb'],
-                              'city' => $customer_address['entry_city'],
-                              'postcode' => $customer_address['entry_postcode'],
-                              'state' => ((tep_not_null($customer_address['entry_state'])) ? $customer_address['entry_state'] : $customer_address['zone_name']),
-                              'zone_id' => $customer_address['entry_zone_id'],
-                              'country' => array('id' => $customer_address['countries_id'], 'title' => $customer_address['countries_name'], 'iso_code_2' => $customer_address['countries_iso_code_2'], 'iso_code_3' => $customer_address['countries_iso_code_3']),
-                              'format_id' => $customer_address['address_format_id'],
-                              'telephone' => $customer_address['customers_telephone'],
-                              'email_address' => $customer_address['customers_email_address']);
-
-      $this->delivery = array('firstname' => $shipping_address['entry_firstname'],
-                              'lastname' => $shipping_address['entry_lastname'],
-                              'company' => $shipping_address['entry_company'],
-                              'street_address' => $shipping_address['entry_street_address'],
-                              'suburb' => $shipping_address['entry_suburb'],
-                              'city' => $shipping_address['entry_city'],
-                              'postcode' => $shipping_address['entry_postcode'],
-                              'state' => ((tep_not_null($shipping_address['entry_state'])) ? $shipping_address['entry_state'] : $shipping_address['zone_name']),
-                              'zone_id' => $shipping_address['entry_zone_id'],
-                              'country' => array('id' => $shipping_address['countries_id'], 'title' => $shipping_address['countries_name'], 'iso_code_2' => $shipping_address['countries_iso_code_2'], 'iso_code_3' => $shipping_address['countries_iso_code_3']),
-                              'country_id' => $shipping_address['entry_country_id'],
-                              'format_id' => $shipping_address['address_format_id']);
-
-      $this->billing = array('firstname' => $billing_address['entry_firstname'],
-                             'lastname' => $billing_address['entry_lastname'],
-                             'company' => $billing_address['entry_company'],
-                             'street_address' => $billing_address['entry_street_address'],
-                             'suburb' => $billing_address['entry_suburb'],
-                             'city' => $billing_address['entry_city'],
-                             'postcode' => $billing_address['entry_postcode'],
-                             'state' => ((tep_not_null($billing_address['entry_state'])) ? $billing_address['entry_state'] : $billing_address['zone_name']),
-                             'zone_id' => $billing_address['entry_zone_id'],
-                             'country' => array('id' => $billing_address['countries_id'], 'title' => $billing_address['countries_name'], 'iso_code_2' => $billing_address['countries_iso_code_2'], 'iso_code_3' => $billing_address['countries_iso_code_3']),
-                             'country_id' => $billing_address['entry_country_id'],
-                             'format_id' => $billing_address['address_format_id']);
+        if (is_array($billing_address)) {
+          $this->billing = array('firstname' => $billing_address['entry_firstname'],
+                              'lastname' => $billing_address['entry_lastname'],
+                              'company' => $billing_address['entry_company'],
+                              'street_address' => $billing_address['entry_street_address'],
+                              'suburb' => $billing_address['entry_suburb'],
+                              'city' => $billing_address['entry_city'],
+                              'postcode' => $billing_address['entry_postcode'],
+                              'state' => ((tep_not_null($billing_address['entry_state'])) ? $billing_address['entry_state'] : $billing_address['zone_name']),
+                              'zone_id' => $billing_address['entry_zone_id'],
+                              'country' => array('id' => $billing_address['countries_id'], 'title' => $billing_address['countries_name'], 'iso_code_2' => $billing_address['countries_iso_code_2'], 'iso_code_3' => $billing_address['countries_iso_code_3']),
+                              'country_id' => $billing_address['entry_country_id'],
+                              'format_id' => $billing_address['address_format_id']);
+        } else {
+          $this->billing = [];
+        }
 
       $index = 0;
       $products = $cart->get_products();
@@ -333,9 +345,9 @@
       }
 
       if (DISPLAY_PRICE_WITH_TAX == 'true') {
-        $this->info['total'] = $this->info['subtotal'] + $this->info['shipping_cost'];
+        $this->info['total'] = (float)$this->info['subtotal'] + (float)$this->info['shipping_cost'];
       } else {
-        $this->info['total'] = $this->info['subtotal'] + $this->info['tax'] + $this->info['shipping_cost'];
+        $this->info['total'] = (float)$this->info['subtotal'] + (float)$this->info['tax'] + (float)$this->info['shipping_cost'];
       }
     }
   }

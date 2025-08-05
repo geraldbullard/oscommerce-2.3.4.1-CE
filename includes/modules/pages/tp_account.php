@@ -11,7 +11,7 @@
 */
 
   class tp_account {
-    var $group = 'account';
+    public $group = 'account';
 
     function prepare() {
       global $oscTemplate;

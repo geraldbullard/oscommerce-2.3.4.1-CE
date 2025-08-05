@@ -11,12 +11,12 @@
 */
 
   class ar_tell_a_friend {
-    var $code = 'ar_tell_a_friend';
-    var $title;
-    var $description;
-    var $sort_order = 0;
-    var $minutes = 15;
-    var $identifier;
+    public $code = 'ar_tell_a_friend';
+    public $title;
+    public $description;
+    public $sort_order = 0;
+    public $minutes = 15;
+    public $identifier;
 
     function __construct() {
       $this->title = MODULE_ACTION_RECORDER_TELL_A_FRIEND_TITLE;

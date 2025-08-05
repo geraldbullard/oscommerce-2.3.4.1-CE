@@ -11,12 +11,12 @@
 */
 
   class nb_shopping_cart {
-    var $code = 'nb_shopping_cart';
-    var $group = 'navbar_modules_right';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;    
+    public $code = 'nb_shopping_cart';
+    public $group = 'navbar_modules_right';
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;    
     
     function __construct() {
       $this->title = MODULE_NAVBAR_SHOPPING_CART_TITLE;

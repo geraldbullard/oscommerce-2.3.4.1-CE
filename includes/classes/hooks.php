@@ -11,8 +11,8 @@
 */
 
   class hooks {
-    var $_site;
-    var $_hooks = array();
+    public $_site;
+    public $_hooks = array();
 
     function __construct($site) {
       $this->_site = basename($site);

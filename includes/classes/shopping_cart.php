@@ -11,7 +11,7 @@
 */
 
   class shoppingCart {
-    var $contents, $total, $weight, $cartID, $content_type;
+    public $contents, $total, $weight, $cartID, $content_type;
 
     function __construct() {
       $this->reset();

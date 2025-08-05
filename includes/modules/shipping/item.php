@@ -11,7 +11,8 @@
 */
 
   class item {
-    var $code, $title, $description, $icon, $enabled;
+    public $code, $title, $description, $icon, $enabled, $sort_order, $tax_class, $_check;
+    public $quotes = array();
 
 // class constructor
     function __construct() {

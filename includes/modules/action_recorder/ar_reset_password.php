@@ -11,13 +11,13 @@
 */
 
   class ar_reset_password {
-    var $code = 'ar_reset_password';
-    var $title;
-    var $description;
-    var $sort_order = 0;
-    var $minutes = 5;
-    var $attempts = 1;
-    var $identifier;
+    public $code = 'ar_reset_password';
+    public $title;
+    public $description;
+    public $sort_order = 0;
+    public $minutes = 5;
+    public $attempts = 1;
+    public $identifier;
 
     function __construct() {
       $this->title = MODULE_ACTION_RECORDER_RESET_PASSWORD_TITLE;

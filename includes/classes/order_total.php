@@ -11,7 +11,7 @@
 */
 
   class order_total {
-    var $modules;
+    public $modules;
 
 // class constructor
     function __construct() {
