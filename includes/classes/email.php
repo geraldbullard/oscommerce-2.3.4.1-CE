@@ -18,15 +18,16 @@
 */
 
   class email {
-    var $html;
-    var $text;
-    var $output;
-    var $html_text;
-    var $html_images;
-    var $image_types;
-    var $build_params;
-    var $attachments;
-    var $headers;
+    public $html;
+    public $text;
+    public $output;
+    public $html_text;
+    public $html_images;
+    public $image_types;
+    public $build_params;
+    public $attachments;
+    public $headers;
+    public $lf;
 
     function __construct($headers = '') {
       if ($headers == '') $headers = array();
@@ -520,7 +521,7 @@
         $additional_parameters = '-f' . $from_addr;
       }
       
-      return mail($to, $subject, $this->output, implode($this->lf, $headers), $additional_parameters); 
+      return @mail($to, $subject, $this->output, implode($this->lf, $headers), $additional_parameters); 
     }
 
 /**

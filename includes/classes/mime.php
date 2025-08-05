@@ -16,11 +16,13 @@
 */
 
   class mime {
-    var $_encoding;
-    var $_subparts;
-    var $_encoded;
-    var $_headers;
-    var $_body;
+    public $_encoding;
+    public $_subparts;
+    public $_encoded;
+    public $_headers;
+    public $_body;
+    public $lf;
+    public $mime;
 
 /**
  * Constructor.
@@ -41,7 +43,7 @@
     function __construct($body, $params = '') {
       if ($params == '') $params = array();
 
-// Make sure we use the correct linfeed sequence
+      // Make sure we use the correct linfeed sequence
       if (EMAIL_LINEFEED == 'CRLF') {
         $this->lf = "\r\n";
       } else {

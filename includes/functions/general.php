@@ -47,7 +47,7 @@
     }
 
     header('Location: ' . $url);
-
+    exit;
     tep_exit();
   }
 
