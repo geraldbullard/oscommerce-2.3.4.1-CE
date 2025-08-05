@@ -16,6 +16,38 @@
   }
 
   if (STORE_SESSIONS == 'mysql') {
+    class OsCSessionHandler implements SessionHandlerInterface {
+      #[\ReturnTypeWillChange]
+      public function open($save_path, $session_name) {
+        return _sess_open($save_path, $session_name);
+      }
+
+      #[\ReturnTypeWillChange]
+      public function close() {
+        return _sess_close();
+      }
+
+      #[\ReturnTypeWillChange]
+      public function read($id) {
+        return _sess_read($id);
+      }
+
+      #[\ReturnTypeWillChange]
+      public function write($id, $data) {
+        return _sess_write($id, $data);
+      }
+
+      #[\ReturnTypeWillChange]
+      public function destroy($id) {
+        return _sess_destroy($id);
+      }
+
+      #[\ReturnTypeWillChange]
+      public function gc($maxlifetime) {
+        return _sess_gc($maxlifetime);
+      }
+    }
+
     function _sess_open($save_path, $session_name) {
       return true;
     }
@@ -59,7 +91,8 @@
       return $result !== false;
     }
 
-    session_set_save_handler('_sess_open', '_sess_close', '_sess_read', '_sess_write', '_sess_destroy', '_sess_gc');
+    $handler = new OsCSessionHandler();
+    session_set_save_handler($handler, true);
   }
 
   function tep_session_start() {

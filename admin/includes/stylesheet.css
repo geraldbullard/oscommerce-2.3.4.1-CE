@@ -31,6 +31,9 @@ body{
 /*
  * Sidebar
  */
+#columnLeft ul {
+  padding-left: 30px;
+}
 
 .sidebar {
   position: fixed;

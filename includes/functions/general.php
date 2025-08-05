@@ -54,7 +54,7 @@
 ////
 // Parse the data used in the html tags to ensure the tags will not break
   function tep_parse_input_field_data($data, $parse) {
-    return strtr(trim($data), $parse);
+    return strtr(trim((string)$data), $parse);
   }
 
   function tep_output_string($string, $translate = false, $protected = false) {
@@ -115,7 +115,11 @@
     $product_query = tep_db_query("select specials_new_products_price from " . TABLE_SPECIALS . " where products_id = '" . (int)$product_id . "' and status = 1");
     $product = tep_db_fetch_array($product_query);
 
-    return $product['specials_new_products_price'];
+    if (isset($product['specials_new_products_price']) && tep_not_null($product['specials_new_products_price'])) {
+      return $product['specials_new_products_price'];
+    } else {
+      return '';
+    }
   }
 
 ////
@@ -613,7 +617,7 @@
 
 ////
 // Parse search string into indivual objects
-  function tep_parse_search_string($search_str = '', &$objects) {
+  function tep_parse_search_string(&$objects, $search_str = '') {
     $search_str = trim(strtolower($search_str));
 
 // Break up $search_str on whitespace; quoted string will be reconstructed later

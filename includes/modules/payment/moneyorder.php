@@ -11,7 +11,7 @@
 */
 
   class moneyorder {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled, $sort_order, $order_status;
 
 // class constructor
     function __construct() {

@@ -15,7 +15,7 @@
   }
 
   class paypal_pro_dp {
-    var $code, $title, $description, $enabled, $_app;
+    public $code, $title, $description, $enabled, $_app, $signature, $api_version, $public_title, $sort_order, $order_status, $cc_types;
 
     function __construct() {
       global $order;

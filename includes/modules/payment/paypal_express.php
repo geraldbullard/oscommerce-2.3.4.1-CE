@@ -15,7 +15,7 @@
   }
 
   class paypal_express {
-    var $code, $title, $description, $enabled, $_app;
+    public $code, $title, $description, $enabled, $_app, $signature, $api_version, $public_title, $sort_order, $order_status;
 
     function __construct() {
       global $PHP_SELF, $order, $payment, $request_type;

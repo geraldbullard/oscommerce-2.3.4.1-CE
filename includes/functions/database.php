@@ -129,7 +129,7 @@
   function tep_db_input($string, $link = 'db_link') {
     global $$link;
 
-    return mysqli_real_escape_string($$link, $string);
+    return mysqli_real_escape_string($$link, (string)$string);
   }
 
   function tep_db_prepare_input($string) {
@@ -161,14 +161,15 @@
     define('MYSQLI_ASSOC', MYSQL_ASSOC);
 
     function mysqli_connect($server, $username, $password, $database) {
-      if ( substr($server, 0, 2) == 'p:' ) {
-        $link = mysql_pconnect(substr($server, 2), $username, $password);
+      if (substr($server, 0, 2) === 'p:') {
+        // Persistent connection with mysqli
+        $link = mysqli_connect('p:' . substr($server, 2), $username, $password);
       } else {
-        $link = mysql_connect($server, $username, $password);
+        $link = mysqli_connect($server, $username, $password);
       }
 
       if ( $link ) {
-        mysql_select_db($database, $link);
+        mysqli_select_db($link, $database);
       }
 
       return $link;
@@ -176,90 +177,90 @@
 
     function mysqli_connect_errno($link = null) {
       if ( is_null($link) ) {
-        return mysql_errno();
+        return mysqli_errno();
       }
 
-      return mysql_errno($link);
+      return mysqli_errno($link);
     }
 
     function mysqli_connect_error($link = null) {
       if ( is_null($link) ) {
-        return mysql_error();
+        return mysqli_error();
       }
 
-      return mysql_error($link);
+      return mysqli_error($link);
     }
 
     function mysqli_set_charset($link, $charset) {
-      if ( function_exists('mysql_set_charset') ) {
-        return mysql_set_charset($charset, $link);
+      if ( function_exists('mysqli_set_charset') ) {
+        return mysqli_set_charset($charset, $link);
       }
     }
 
     function mysqli_close($link) {
-      return mysql_close($link);
+      return mysqli_close($link);
     }
 
     function mysqli_query($link, $query) {
-      return mysql_query($query, $link);
+      return mysqli_query($link, $query);
     }
 
     function mysqli_errno($link = null) {
       if ( is_null($link) ) {
-        return mysql_errno();
+        return mysqli_errno();
       }
 
-      return mysql_errno($link);
+      return mysqli_errno($link);
     }
 
     function mysqli_error($link = null) {
       if ( is_null($link) ) {
-        return mysql_error();
+        return mysqli_error();
       }
 
-      return mysql_error($link);
+      return mysqli_error($link);
     }
 
     function mysqli_fetch_array($query, $type) {
-      return mysql_fetch_array($query, $type);
+      return mysqli_fetch_array($query, $type);
     }
 
     function mysqli_num_rows($query) {
-      return mysql_num_rows($query);
+      return mysqli_num_rows($query);
     }
 
     function mysqli_data_seek($query, $offset) {
-      return mysql_data_seek($query, $offset);
+      return mysqli_data_seek($query, $offset);
     }
 
     function mysqli_insert_id($link) {
-      return mysql_insert_id($link);
+      return mysqli_insert_id($link);
     }
 
     function mysqli_free_result($query) {
-      return mysql_free_result($query);
+      return mysqli_free_result($query);
     }
 
     function mysqli_fetch_field($query) {
-      return mysql_fetch_field($query);
+      return mysqli_fetch_field($query);
     }
 
     function mysqli_real_escape_string($link, $string) {
-      if ( function_exists('mysql_real_escape_string') ) {
-        return mysql_real_escape_string($string, $link);
-      } elseif ( function_exists('mysql_escape_string') ) {
-        return mysql_escape_string($string);
+      if ( function_exists('mysqli_real_escape_string') ) {
+        return mysqli_real_escape_string($link, (string)$string);
+      } elseif ( function_exists('mysqli_escape_string') ) {
+        return mysqli_escape_string($link, (string)$string);
       }
 
       return addslashes($string);
     }
 
     function mysqli_affected_rows($link) {
-      return mysql_affected_rows($link);
+      return mysqli_affected_rows($link);
     }
 
     function mysqli_get_server_info($link) {
-      return mysql_get_server_info($link);
+      return mysqli_get_server_info($link);
     }
   }
 ?>

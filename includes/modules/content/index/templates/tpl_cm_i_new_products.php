@@ -1,6 +1,14 @@
 <div class="col-sm-<?php echo $content_width; ?> cm-i-new-products">
 
-  <h3 class="h3"><?php echo sprintf(MODULE_CONTENT_NEW_PRODUCTS_HEADING, strftime('%B')); ?></h3>
+  <h3 class="h3"><?php 
+    $formatter = new IntlDateFormatter(
+        'en_US', // or use locale from app settings
+        IntlDateFormatter::LONG,
+        IntlDateFormatter::NONE
+    );
+    $formatter->setPattern('MMMM yyyy');
+    echo sprintf(MODULE_CONTENT_NEW_PRODUCTS_HEADING, $formatter->format(time())); 
+  ?></h3>
   
   <div class="row list-group" itemscope itemtype="http://schema.org/ItemList">
     <meta itemprop="numberOfItems" content="<?php echo (int)$num_new_products; ?>" />

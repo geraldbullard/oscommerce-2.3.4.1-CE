@@ -11,7 +11,7 @@
 */
 
   class chronopay {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled, $signature, $public_title, $sort_order, $order_status, $form_action_url;
 
 // class constructor
     function __construct() {

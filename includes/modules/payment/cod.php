@@ -11,7 +11,7 @@
 */
 
   class cod {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled, $sort_order, $order_status;
 
     function __construct() {
       global $order;

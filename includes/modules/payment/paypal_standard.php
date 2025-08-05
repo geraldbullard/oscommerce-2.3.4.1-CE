@@ -15,7 +15,7 @@
   }
 
   class paypal_standard {
-    var $code, $title, $description, $enabled, $_app;
+    public $code, $title, $description, $enabled, $_app, $signature, $api_version, $public_title, $sort_order, $order_status, $form_action_url;
 
     function __construct() {
       global $PHP_SELF, $payment, $order;

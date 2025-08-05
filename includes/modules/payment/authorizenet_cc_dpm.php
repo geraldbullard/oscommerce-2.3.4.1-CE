@@ -11,7 +11,7 @@
 */
 
   class authorizenet_cc_dpm {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled, $signature, $api_version, $public_title, $sort_order, $order_status, $form_action_url;
 
     function __construct() {
       global $order;

@@ -11,7 +11,7 @@
 */
 
   class paypal_pro_payflow_ec {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled, $signature, $api_version, $public_title, $sort_order, $order_status;
 
     function __construct() {
       global $PHP_SELF, $order;

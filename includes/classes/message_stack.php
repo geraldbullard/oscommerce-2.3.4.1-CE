@@ -17,6 +17,7 @@
   if ($messageStack->size('general') > 0) echo $messageStack->output('general');
 */
   class messageStack extends alertBlock {
+    public $messages = [];
 
 // class constructor
     function __construct() {

@@ -14,7 +14,8 @@
   define('PAGE_PARSE_START_TIME', microtime());
 
 // set the level of error reporting
-  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+  // error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+  error_reporting(E_ALL);
 
 // check support for register_globals
   if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP_VERSION < 4.3) ) {
@@ -206,7 +207,7 @@
   }
 
 // set SID once, even if empty
-  $SID = (defined('SID') ? SID : '');
+  $SID = tep_session_id();
 
 // verify the ssl_session_id if the feature is enabled
   if ( ($request_type == 'SSL') && (SESSION_CHECK_SSL_SESSION_ID == 'True') && (ENABLE_SSL == true) && ($session_started == true) ) {

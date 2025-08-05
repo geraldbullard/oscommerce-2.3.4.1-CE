@@ -18,7 +18,8 @@
 */
 
   class messageStack extends tableBlock {
-    var $size = 0;
+    public $size = 0;
+    public $messages = [];
 		
 	function __construct() {
       global $messageToStack;
