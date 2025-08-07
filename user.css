@@ -7,3 +7,7 @@ footer {
         width: 1280px;
     }
 }
+footer .cm-footer-extra-copyright p,
+footer .cm-footer-extra-icons p {
+    margin: 0;
+}
