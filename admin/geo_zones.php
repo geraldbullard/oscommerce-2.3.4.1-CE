@@ -116,14 +116,14 @@ function update_zone(theForm) {
 <?php	
 	if (empty($action)) {
 ?>
-	<div class="float-right"><?php if (!$action) echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $zInfo->geo_zone_id . '&action=new_zone')); ?></div>	
+	<div class="float-right"><?php if (!$action) echo tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('geo_zones.php', (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($zInfo) ? '&zID=' . $zInfo->geo_zone_id : '') . '&action=new_zone')); ?></div>	
 <?php
 	}
 ?>
 <?php
   if ($action == 'list') {
 ?>
-	<div class="float-right"><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'])) . ' ' . tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=list&spage=' . $_GET['spage'] . '&' . (isset($sInfo) ? 'sID=' . $sInfo->association_id . '&' : '') . 'saction=new')); ?></div>
+	<div class="float-right"><?php echo tep_draw_button(IMAGE_BACK, 'triangle-1-w', tep_href_link('geo_zones.php', (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : ''))) . ' ' . tep_draw_button(IMAGE_INSERT, 'plus', tep_href_link('geo_zones.php', (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($_GET['zID']) ? '&zID=' . $_GET['zID'] : '') . '&action=list' . (isset($_GET['spage']) ? '&spage=' . $_GET['spage'] : '') . '&' . (isset($sInfo) ? 'sID=' . $sInfo->association_id . '&' : '') . 'saction=new')); ?></div>
 <?php
   }
 ?>  
@@ -188,7 +188,7 @@ function update_zone(theForm) {
     $zones_query = tep_db_query($zones_query_raw);
     while ($zones = tep_db_fetch_array($zones_query)) {
       if ((!isset($_GET['zID']) || (isset($_GET['zID']) && ($_GET['zID'] == $zones['geo_zone_id']))) && !isset($zInfo) && (substr($action, 0, 3) != 'new')) {
-        $num_zones_query = tep_db_query("select count(*) as num_zones from " . TABLE_ZONES_TO_GEO_ZONES . " where geo_zone_id = '" . (int)$zones['geo_zone_id'] . "' group by geo_zone_id");
+        $num_zones_query = tep_db_query("select count(*) as num_zones from " . TABLE_GEO_ZONES . " where geo_zone_id = '" . (int)$zones['geo_zone_id'] . "' group by geo_zone_id");
         $num_zones = tep_db_fetch_array($num_zones_query);
 
         if ($num_zones['num_zones'] > 0) {
@@ -266,7 +266,7 @@ function update_zone(theForm) {
       case 'new_zone':
         $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_NEW_ZONE . '</strong>');
 
-        $contents = array('form' => tep_draw_form('zones', 'geo_zones.php', 'zpage=' . $_GET['zpage'] . '&zID=' . $_GET['zID'] . '&action=insert_zone'));
+        $contents = array('form' => tep_draw_form('zones', 'geo_zones.php', (isset($_GET['zpage']) ? '&zpage=' . $_GET['zpage'] : '') . (isset($_GET['ziD']) ? '&zID=' . $_GET['zID'] : '') . '&action=insert_zone'));
         $contents[] = array('text' => TEXT_INFO_NEW_ZONE_INTRO);
         $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_NAME . '<br />' . tep_draw_input_field('geo_zone_name'));
         $contents[] = array('text' => '<br />' . TEXT_INFO_ZONE_DESCRIPTION . '<br />' . tep_draw_input_field('geo_zone_description'));

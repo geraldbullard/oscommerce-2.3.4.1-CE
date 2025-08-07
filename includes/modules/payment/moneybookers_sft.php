@@ -99,13 +99,13 @@
 
       $zone_id = 0;
 
-      $zone_query = tep_db_query("select geo_zone_id from " . TABLE_GEO_ZONES . " where geo_zone_name = 'Moneybookers Sofortüberweisung'");
+      $zone_query = tep_db_query("select geo_zone_id from " . TABLE_GEO_ZONES . " where geo_zone_name = 'Moneybookers SofortUberweisung'");
       if (tep_db_num_rows($zone_query)) {
         $zone = tep_db_fetch_array($zone_query);
 
         $zone_id = $zone['geo_zone_id'];
       } else {
-        tep_db_query("insert into " . TABLE_GEO_ZONES . " values (null, 'Moneybookers Sofortüberweisung', 'The zone for the Moneybookers Sofortüberweisung payment module', null, now())");
+        tep_db_query("insert into " . TABLE_GEO_ZONES . " values (null, 'Moneybookers SofortUberweisung', 'The zone for the Moneybookers SofortUberweisung payment module', null, now())");
         $zone_id = tep_db_insert_id();
 
         $country_query = tep_db_query("select countries_id from " . TABLE_COUNTRIES . " where countries_iso_code_2 = 'DE'");
@@ -116,7 +116,7 @@
         }
       }
 
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Moneybookers Sofortüberweisung', 'MODULE_PAYMENT_MONEYBOOKERS_SFT_STATUS', 'False', 'Do you want to accept Moneybookers Sofortüberweisung payments?', '6', '3', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
+      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Enable Moneybookers SofortUberweisung', 'MODULE_PAYMENT_MONEYBOOKERS_SFT_STATUS', 'False', 'Do you want to accept Moneybookers SofortUberweisung payments?', '6', '3', 'tep_cfg_select_option(array(\'True\', \'False\'), ', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort order of display.', 'MODULE_PAYMENT_MONEYBOOKERS_SFT_SORT_ORDER', '0', 'Sort order of display. Lowest is displayed first.', '6', '0', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, use_function, set_function, date_added) values ('Payment Zone', 'MODULE_PAYMENT_MONEYBOOKERS_SFT_ZONE', '" . (int)$zone_id . "', 'If a zone is selected, only enable this payment method for that zone.', '6', '2', 'tep_get_zone_class_title', 'tep_cfg_pull_down_zone_classes(', now())");
       tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) values ('Set Preparing Order Status', 'MODULE_PAYMENT_MONEYBOOKERS_SFT_PREPARE_ORDER_STATUS_ID', '" . MODULE_PAYMENT_MONEYBOOKERS_PREPARE_ORDER_STATUS_ID . "', 'Set the status of prepared orders made with this payment module to this value', '6', '0', 'tep_cfg_pull_down_order_statuses(', 'tep_get_order_status_name', now())");

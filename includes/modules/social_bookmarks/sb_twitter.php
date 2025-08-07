@@ -11,12 +11,13 @@
 */
 
   class sb_twitter {
-    var $code = 'sb_twitter';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon = 'twitter.png';
-    var $enabled = false;
+    public $code = 'sb_twitter';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon = 'twitter.png';
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_TWITTER_TITLE;

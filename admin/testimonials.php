@@ -23,7 +23,7 @@
           }
         }
 
-        tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID']));
+        tep_redirect(tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $_GET['tID']));
         break;
       case 'update':
         $testimonials_id = tep_db_prepare_input($_GET['tID']);
@@ -33,7 +33,7 @@
         tep_db_query("update testimonials set testimonials_status = '" . tep_db_input($testimonials_status) . "', last_modified = now() where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("update testimonials_description set testimonials_text = '" . tep_db_input($testimonials_text) . "' where testimonials_id = '" . (int)$testimonials_id . "'");
 
-        tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials_id));
+        tep_redirect(tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $testimonials_id));
         break;
       case 'deleteconfirm':
         $testimonials_id = tep_db_prepare_input($_GET['tID']);
@@ -41,7 +41,7 @@
         tep_db_query("delete from testimonials where testimonials_id = '" . (int)$testimonials_id . "'");
         tep_db_query("delete from testimonials_description where testimonials_id = '" . (int)$testimonials_id . "'");
 
-        tep_redirect(tep_href_link('testimonials.php', 'page=' . $_GET['page']));
+        tep_redirect(tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value()));
         break;
         
       case 'addnew':
@@ -87,7 +87,7 @@
       default: $in_status = true; $out_status = false;
     }
 ?>
-		<?php echo tep_draw_form('testimonial', 'testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID'] . '&action=update'); ?>
+		<?php echo tep_draw_form('testimonial', 'testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $_GET['tID'] . '&action=update'); ?>
 			<table class="table table-bordered">
 				<tr>
 					<td class="main" colspan="2"><strong><?php echo TEXT_INFO_TESTIMONIAL_STATUS; ?></strong> <?php echo tep_draw_separator('pixel_trans.gif', '24', '15') . '&nbsp;' . tep_draw_radio_field('testimonials_status', '1', $in_status) . '&nbsp;' . TEXT_TESTIMONIAL_PUBLISHED . '&nbsp;' . tep_draw_radio_field('testimonials_status', '0', $out_status) . '&nbsp;' . TEXT_TESTIMONIAL_NOT_PUBLISHED; ?></td>
@@ -100,7 +100,7 @@
 				</tr>    
 			</table>
 				<nav>
-					<ul class="float-right"><?php echo tep_draw_hidden_field('testimonials_id', $tInfo->testimonials_id) . tep_draw_hidden_field('customers_name', $tInfo->customers_name) . tep_draw_hidden_field('date_added', $tInfo->date_added) . tep_draw_button(IMAGE_SAVE, 'document') . ' ' . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $_GET['tID'])); ?></ul>
+					<ul class="float-right"><?php echo tep_draw_hidden_field('testimonials_id', $tInfo->testimonials_id) . tep_draw_hidden_field('customers_name', $tInfo->customers_name) . tep_draw_hidden_field('date_added', $tInfo->date_added) . tep_draw_button(IMAGE_SAVE, 'document') . ' ' . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $_GET['tID'])); ?></ul>
 				</nav>			
 		</form>
 	</div><!-- end col-* -->
@@ -118,7 +118,7 @@
 			</tr>
 		</table>
 			<nav>
-				<ul class="float-right"><?php echo tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . $_GET['page'])) . ' ' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></ul>
+				<ul class="float-right"><?php echo tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value())) . ' ' . tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary'); ?></ul>
 			</nav>		
 		</form>
 	</div><!-- end col-* -->
@@ -148,9 +148,9 @@
       }
 
       if (isset($tInfo) && is_object($tInfo) && ($testimonials['testimonials_id'] == $tInfo->testimonials_id) ) {
-        echo '<tr id="defaultSelected" class="table-primary" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=edit') . '\'">' . "\n";
+        echo '<tr id="defaultSelected" class="table-primary" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $tInfo->testimonials_id . '&action=edit') . '\'">' . "\n";
       } else {
-        echo '<tr class="dataTableRow" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials['testimonials_id']) . '\'">' . "\n";
+        echo '<tr class="dataTableRow" onclick="document.location.href=\'' . tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $testimonials['testimonials_id']) . '\'">' . "\n";
       }
 ?>
                 <td class="dataTableContent"><?php echo $testimonials['customers_name']; ?></td>
@@ -164,7 +164,7 @@
       }
 ?>
 				</td>
-				<td class="dataTableContent" align="right"><?php if ( (is_object($tInfo)) && ($testimonials['testimonials_id'] == $tInfo->testimonials_id) ) { echo tep_image('images/icon_arrow_right.gif'); } else { echo '<a href="' . tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $testimonials['testimonials_id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
+				<td class="dataTableContent" align="right"><?php if ( (is_object($tInfo)) && ($testimonials['testimonials_id'] == $tInfo->testimonials_id) ) { echo tep_image('images/icon_arrow_right.gif'); } else { echo '<a href="' . tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $testimonials['testimonials_id']) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>'; } ?>&nbsp;</td>
 			</tr>
 <?php
     }
@@ -183,15 +183,15 @@
       case 'delete':
         $heading[] = array('text' => '<strong>' . TEXT_INFO_HEADING_DELETE_TESTIMONIAL . '</strong>');
 
-        $contents = array('form' => tep_draw_form('testimonials', 'testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=deleteconfirm'));
+        $contents = array('form' => tep_draw_form('testimonials', 'testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $tInfo->testimonials_id . '&action=deleteconfirm'));
         $contents[] = array('text' => TEXT_INFO_DELETE_TESTIMONIAL_INTRO);
-        $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $tInfo->testimonials_id)));
+        $contents[] = array('align' => 'center', 'text' => '<br />' . tep_draw_button(IMAGE_DELETE, 'trash', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $tInfo->testimonials_id)));
         break;
       default:
       if (isset($tInfo) && is_object($tInfo)) {
         $heading[] = array('text' => '<strong>' . $tInfo->customers_name . '</strong>');
 
-        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('testimonials.php', 'page=' . $_GET['page'] . '&tID=' . $tInfo->testimonials_id . '&action=delete')));
+        $contents[] = array('align' => 'center', 'text' => tep_draw_button(IMAGE_EDIT, 'document', tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $tInfo->testimonials_id . '&action=edit')) . tep_draw_button(IMAGE_DELETE, 'trash', tep_href_link('testimonials.php', 'page=' . tep_get_url_page_value() . '&tID=' . $tInfo->testimonials_id . '&action=delete')));
         $contents[] = array('text' => '<br />' . TEXT_INFO_DATE_ADDED . ' ' . tep_date_short($tInfo->date_added));
         if (tep_not_null($tInfo->last_modified)) $contents[] = array('text' => TEXT_INFO_LAST_MODIFIED . ' ' . tep_date_short($tInfo->last_modified));
         $contents[] = array('text' => '<br />' . TEXT_INFO_TESTIMONIAL_AUTHOR . ' ' . $tInfo->customers_name);

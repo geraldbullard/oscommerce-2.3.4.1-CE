@@ -11,12 +11,13 @@
 */
 
   class sb_google_plus_one {
-    var $code = 'sb_google_plus_one';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon;
-    var $enabled = false;
+    public $code = 'sb_google_plus_one';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon;
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_ONE_TITLE;

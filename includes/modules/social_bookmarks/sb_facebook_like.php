@@ -11,12 +11,13 @@
 */
 
   class sb_facebook_like {
-    var $code = 'sb_facebook_like';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon = 'facebook.png';
-    var $enabled = false;
+    public $code = 'sb_facebook_like';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon = 'facebook.png';
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_FACEBOOK_LIKE_TITLE;

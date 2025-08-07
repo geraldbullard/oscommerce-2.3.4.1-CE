@@ -241,7 +241,7 @@ define('IMAGE_SEND', 'Send');
 define('IMAGE_SEND_EMAIL', 'Send Email');
 define('IMAGE_UNLOCK', 'Unlock');
 define('IMAGE_UPDATE', 'Update');
-define('IMAGE_UPDATE_CURRENCIES', 'Update Exchange Rate');
+define('IMAGE_UPDATE_CURRENCIES', 'Update Exchange Rates');
 define('IMAGE_UPLOAD', 'Upload');
 
 define('ICON_CROSS', 'False');

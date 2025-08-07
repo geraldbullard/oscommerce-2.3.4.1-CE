@@ -11,12 +11,13 @@
 */
 
   class sb_email {
-    var $code = 'sb_email';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon = 'email.png';
-    var $enabled = false;
+    public $code = 'sb_email';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon = 'email.png';
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_EMAIL_TITLE;

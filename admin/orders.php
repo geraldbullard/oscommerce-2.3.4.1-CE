@@ -196,17 +196,17 @@
                 <tr class="dataTableHeadingRow">
                     <th class="dataTableHeadingContent" colspan="2"><?php echo TABLE_HEADING_PRODUCTS; ?></th>
                     <th class="dataTableHeadingContent"><?php echo TABLE_HEADING_PRODUCTS_MODEL; ?></th>
-                    <th class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_TAX; ?></th>
-                    <th class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
-                    <th class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
-                    <th class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
-                    <th class="dataTableHeadingContent" align="right"><?php echo TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
+                    <th class="dataTableHeadingContent" style="text-align:right;"><?php echo TABLE_HEADING_TAX; ?></th>
+                    <th class="dataTableHeadingContent" style="text-align:right;"><?php echo TABLE_HEADING_PRICE_EXCLUDING_TAX; ?></th>
+                    <th class="dataTableHeadingContent" style="text-align:right;"><?php echo TABLE_HEADING_PRICE_INCLUDING_TAX; ?></th>
+                    <th class="dataTableHeadingContent" style="text-align:right;"><?php echo TABLE_HEADING_TOTAL_EXCLUDING_TAX; ?></th>
+                    <th class="dataTableHeadingContent" style="text-align:right;"><?php echo TABLE_HEADING_TOTAL_INCLUDING_TAX; ?></th>
                 </tr>
             </thead>
 <?php
     for ($i=0, $n=sizeof($order->products); $i<$n; $i++) {
       echo '      <tr class="dataTableRow">' . "\n" .
-           '        <td class="dataTableContent" valign="top" align="right">' . $order->products[$i]['qty'] . '&nbsp;x</td>' . "\n" .
+           '        <td class="dataTableContent" valign="top">' . $order->products[$i]['qty'] . '&nbsp;x</td>' . "\n" .
            '        <td class="dataTableContent" valign="top">' . $order->products[$i]['name'];
 
       if (isset($order->products[$i]['attributes']) && (sizeof($order->products[$i]['attributes']) > 0)) {
@@ -231,7 +231,7 @@
 <?php
     foreach ( $order->totals as $ot ) {
       echo '          <tr>' . "\n" .
-           '            <td align="right" class="smallText">' . $ot['title'] . '</td>' . "\n" .
+           '            <td align="right" class="smallText" colspan="7">' . $ot['title'] . '</td>' . "\n" .
            '            <td align="right" class="smallText">' . $ot['text'] . '</td>' . "\n" .
            '          </tr>' . "\n";
     }
@@ -309,7 +309,14 @@
   </div>
 </div>
 <?php
-    echo $OSCOM_Hooks->call('orders', 'orderTab');
+    // Added to hide Fatal Error for tab.php if no PayPal installed
+    if (
+        defined('MODULE_PAYMENT_INSTALLED') &&
+        tep_not_null(MODULE_PAYMENT_INSTALLED) &&
+        preg_grep('/^paypal.*\.php$/i', explode(';', MODULE_PAYMENT_INSTALLED))
+    ) {
+        echo $OSCOM_Hooks->call('orders', 'orderTab');
+    }
 ?>
 <script>
 $('#orderTabs a').click(function (e) {

@@ -106,7 +106,7 @@
   $prod_list_contents = NULL;
   
   // php 5
-  $list_group_item = (isset($item_width) ? $item_width : 4);
+  $list_group_item = (isset($item_width) ? $item_width : 6);
   // php 7
   // $list_group_item = $item_width ?? 4;
 

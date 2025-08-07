@@ -139,7 +139,7 @@ echo '</form>';
   }
 ?>
 		<nav>
-			<ul class="float-right"><?php echo tep_draw_button(IMAGE_BACK, 'arrow-1-w', tep_href_link('banner_manager.php', 'page=' . $_GET['page'] . '&bID=' . $_GET['bID'])); ?></ul>
+			<ul class="float-right"><?php echo tep_draw_button(IMAGE_BACK, 'arrow-1-w', tep_href_link('banner_manager.php', 'page=' . tep_get_url_page_value() . '&bID=' . $_GET['bID'])); ?></ul>
 		</nav>
 	</div>
 <?php

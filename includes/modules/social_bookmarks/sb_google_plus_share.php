@@ -11,12 +11,13 @@
 */
 
   class sb_google_plus_share {
-    var $code = 'sb_google_plus_share';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon;
-    var $enabled = false;
+    public $code = 'sb_google_plus_share';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon;
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_GOOGLE_PLUS_SHARE_TITLE;

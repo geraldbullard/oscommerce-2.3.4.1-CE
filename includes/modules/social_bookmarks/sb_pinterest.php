@@ -11,12 +11,13 @@
 */
 
   class sb_pinterest {
-    var $code = 'sb_pinterest';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon;
-    var $enabled = false;
+    public $code = 'sb_pinterest';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon;
+    public $enabled = false;
 
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_PINTEREST_TITLE;

@@ -11,12 +11,13 @@
 */
 
   class sb_digg {
-    var $code = 'sb_digg';
-    var $title;
-    var $description;
-    var $sort_order;
-    var $icon = 'digg.png';
-    var $enabled = false;
+    public $code = 'sb_digg';
+    public $title;
+    public $public_title;
+    public $description;
+    public $sort_order;
+    public $icon = 'digg.png';
+    public $enabled = false;
     
     function __construct() {
       $this->title = MODULE_SOCIAL_BOOKMARKS_DIGG_TITLE;
