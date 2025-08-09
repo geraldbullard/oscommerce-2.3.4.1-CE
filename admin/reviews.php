@@ -141,7 +141,7 @@
       $rInfo = new objectInfo($rInfo_array);
     }
 ?>
-	<?php echo tep_draw_form('update', 'reviews.php', 'page=' . tep_get_url_page_value() . '&rID=' . $_GET['rID'] . '&action=update', 'post', 'enctype="multipart/form-data"'); ?>
+	<?php echo tep_draw_form('update', 'reviews.php', 'page=' . tep_get_url_page_value() . '&rID=' . $_GET['rID'] . '&action=update', 'post', 'enctype="multipart/form-data" style="width:100%;"'); ?>
 		<div class="col-md-8">	
 			<table class="table table-bordered">
 				<tr>
@@ -188,7 +188,7 @@
 <?php
   } elseif ($action == 'new') {
 ?>
-	<?php echo tep_draw_form('review', 'reviews.php', 'action=addnew'); ?>
+	<?php echo tep_draw_form('review', 'reviews.php', 'action="addnew"', 'post', 'style="width:100%;"'); ?>
 		<div class="col-md-8">	
 			<table class="table table-bordered">
 				<tr>
