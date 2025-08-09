@@ -15,12 +15,12 @@
   }
 
   class moneybookers_idl extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersIDL_ID';
-    var $_payment_method = 'IDL';
-    var $_payment_method_image = 'ideal.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersIDL_ID';
+    public $_payment_method = 'IDL';
+    public $_payment_method_image = 'ideal.gif';
 
 // class constructor
     function __construct() {

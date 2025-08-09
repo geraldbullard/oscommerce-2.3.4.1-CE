@@ -15,12 +15,13 @@
   }
 
   class d_paypal_app {
-    var $code;
-    var $group;
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+    public $code;
+    public $group;
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;
+    public $_app;
 
     function __construct() {
       $this->code = get_class($this);

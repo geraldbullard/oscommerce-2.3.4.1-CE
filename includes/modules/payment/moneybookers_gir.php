@@ -15,12 +15,12 @@
   }
 
   class moneybookers_gir extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersGIR_ID';
-    var $_payment_method = 'GIR';
-    var $_payment_method_image = 'giropay.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersGIR_ID';
+    public $_payment_method = 'GIR';
+    public $_payment_method_image = 'giropay.gif';
 
 // class constructor
     function __construct() {

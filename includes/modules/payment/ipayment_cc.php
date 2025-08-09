@@ -11,7 +11,7 @@
 */
 
   class ipayment_cc {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
 // class constructor
     function __construct() {

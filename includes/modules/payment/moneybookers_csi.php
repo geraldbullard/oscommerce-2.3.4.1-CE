@@ -15,12 +15,12 @@
   }
 
   class moneybookers_csi extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersCSI_ID';
-    var $_payment_method = 'CSI';
-    var $_payment_method_image = 'cartasi.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersCSI_ID';
+    public $_payment_method = 'CSI';
+    public $_payment_method_image = 'cartasi.gif';
 
 // class constructor
     function __construct() {

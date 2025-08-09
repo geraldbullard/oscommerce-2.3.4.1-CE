@@ -10,17 +10,31 @@
   Released under the GNU General Public License
 */
 
-  class objectInfo {
+class objectInfo 
+{
+    // Storage for unknown props
+    private $data = [];
 
-// class constructor
-    function __construct($object_array) {
-		  $this->objectInfo($object_array);
-		}
-
-    function objectInfo($object_array) {
-      foreach($object_array as $key => $value) {
-        $this->$key = tep_db_prepare_input($value);
-      }
+    public function __construct($object_array) {
+        $this->objectInfo($object_array);
     }
-  }
-?>
+
+    public function objectInfo($object_array) {
+        foreach ($object_array as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = tep_db_prepare_input($value);
+            } else {
+                $this->__set($key, tep_db_prepare_input($value));
+            }
+        }
+    }
+
+    public function __set($name, $value) {
+        $this->data[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->data[$name] ?? null;
+    }
+}
+

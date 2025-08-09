@@ -15,12 +15,12 @@
   }
 
   class moneybookers_ngp extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersNGP_ID';
-    var $_payment_method = 'NGP';
-    var $_payment_method_image = '';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersNGP_ID';
+    public $_payment_method = 'NGP';
+    public $_payment_method_image = '';
 
 // class constructor
     function __construct() {

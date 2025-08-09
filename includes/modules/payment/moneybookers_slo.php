@@ -15,12 +15,12 @@
   }
 
   class moneybookers_slo extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersSLO_ID';
-    var $_payment_method = 'SLO';
-    var $_payment_method_image = 'solo.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersSLO_ID';
+    public $_payment_method = 'SLO';
+    public $_payment_method_image = 'solo.gif';
 
 // class constructor
     function __construct() {

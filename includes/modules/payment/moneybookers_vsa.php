@@ -15,12 +15,12 @@
   }
 
   class moneybookers_vsa extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersVSA_ID';
-    var $_payment_method = 'VSA';
-    var $_payment_method_image = 'euro6000.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersVSA_ID';
+    public $_payment_method = 'VSA';
+    public $_payment_method_image = 'euro6000.gif';
 
 // class constructor
     function __construct() {

@@ -15,12 +15,12 @@
   }
 
   class moneybookers_acc extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersACC_ID';
-    var $_payment_method = 'ACC';
-    var $_payment_method_image = 'All_CCs_225x45.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersACC_ID';
+    public $_payment_method = 'ACC';
+    public $_payment_method_image = 'All_CCs_225x45.gif';
 
 // class constructor
     function __construct() {

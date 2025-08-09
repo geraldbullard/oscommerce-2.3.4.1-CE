@@ -15,6 +15,8 @@
   }
 
   class paypal_hook_admin_orders_action {
+    public $_app;
+
     function __construct() {
       global $OSCOM_PayPal;
 

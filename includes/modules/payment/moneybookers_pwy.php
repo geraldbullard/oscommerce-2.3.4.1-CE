@@ -15,12 +15,12 @@
   }
 
   class moneybookers_pwy extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersPWY_ID';
-    var $_payment_method = 'PWY';
-    var $_payment_method_image = 'p24.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersPWY_ID';
+    public $_payment_method = 'PWY';
+    public $_payment_method_image = 'p24.gif';
 
 // class constructor
     function __construct() {

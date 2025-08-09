@@ -15,12 +15,12 @@
   }
 
   class moneybookers_mae extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersMAE_ID';
-    var $_payment_method = 'MAE';
-    var $_payment_method_image = 'maestro.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersMAE_ID';
+    public $_payment_method = 'MAE';
+    public $_payment_method_image = 'maestro.gif';
 
 // class constructor
     function __construct() {

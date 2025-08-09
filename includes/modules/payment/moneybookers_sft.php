@@ -15,12 +15,12 @@
   }
 
   class moneybookers_sft extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersSFT_ID';
-    var $_payment_method = 'SFT';
-    var $_payment_method_image = 'sofort.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersSFT_ID';
+    public $_payment_method = 'SFT';
+    public $_payment_method_image = 'sofort.gif';
 
 // class constructor
     function __construct() {

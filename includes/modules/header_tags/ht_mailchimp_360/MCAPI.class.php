@@ -1,71 +1,76 @@
 <?php
 
-class MCAPI {
-    var $version = "1.2";
-    var $errorMessage;
-    var $errorCode;
-    
+class MCAPI
+{
+    public $version = "1.2";
+    public $errorMessage;
+    public $errorCode;
+
     /**
      * Cache the information on the API location on the server
      */
-    var $apiUrl;
-    
+    public $apiUrl;
+
     /**
      * Default to a 300 second timeout on server calls
      */
-    var $timeout = 300; 
-    
+    public $timeout = 300;
+
     /**
      * Default to a 8K chunk size
      */
-    var $chunkSize = 8192;
-    
-    /**
-     * Cache the user api_key so we only have to log in once per client instantiation
-     */
-    var $api_key;
+    public $chunkSize = 8192;
 
     /**
      * Cache the user api_key so we only have to log in once per client instantiation
      */
-    var $secure = false;
-    
+    public $api_key;
+
+    /**
+     * Cache the user api_key so we only have to log in once per client instantiation
+     */
+    public $secure = false;
+
     /**
      * Connect to the MailChimp API for a given list. All MCAPI calls require login before functioning
      * 
      * @param string $username_or_apikey Your MailChimp login user name OR apikey - always required
      * @param string $password Your MailChimp login password - only required when username passed instead of API Key
      */
-    function __construct($username_or_apikey, $password=null, $secure=false) {
+    function __construct($username_or_apikey, $password = null, $secure = false)
+    {
         //do more "caching" of the uuid for those people that keep instantiating this...
         $this->secure = $secure;
         $this->apiUrl = parse_url("http://api.mailchimp.com/" . $this->version . "/?output=php");
-        if ( isset($GLOBALS["mc_api_key"]) && $GLOBALS["mc_api_key"]!="" ){
+        if (isset($GLOBALS["mc_api_key"]) && $GLOBALS["mc_api_key"] != "") {
             $this->api_key = $GLOBALS["mc_api_key"];
-        } elseif( $username_or_apikey && !$password ){
+        } elseif ($username_or_apikey && !$password) {
             $this->api_key = $GLOBALS["mc_api_key"] = $username_or_apikey;
-        }  else {
+        } else {
             $this->api_key = $this->callServer("login", array("username" => $username_or_apikey, "password" => $password));
             $GLOBALS["mc_api_key"] = $this->api_key;
         }
     }
-    function setTimeout($seconds){
-        if (is_int($seconds)){
+    function setTimeout($seconds)
+    {
+        if (is_int($seconds)) {
             $this->timeout = $seconds;
             return true;
         }
     }
-    function getTimeout(){
+    function getTimeout()
+    {
         return $this->timeout;
     }
-    function useSecure($val){
-        if ($val===true){
+    function useSecure($val)
+    {
+        if ($val === true) {
             $this->secure = true;
         } else {
             $this->secure = false;
         }
     }
-    
+
     /**
      * Unschedule a campaign that is scheduled to be sent in the future
      *
@@ -76,7 +81,8 @@ class MCAPI {
      * @param string $cid the id of the campaign to unschedule
      * @return boolean true on success
      */
-    function campaignUnschedule($cid) {
+    function campaignUnschedule($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignUnschedule", $params);
@@ -94,7 +100,8 @@ class MCAPI {
      * @param string $schedule_time_b optional -the time to schedule Group B of an A/B Split "schedule" campaign - in YYYY-MM-DD HH:II:SS format in <strong>GMT</strong>
      * @return boolean true on success
      */
-    function campaignSchedule($cid, $schedule_time, $schedule_time_b=NULL) {
+    function campaignSchedule($cid, $schedule_time, $schedule_time_b = NULL)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["schedule_time"] = $schedule_time;
@@ -110,7 +117,8 @@ class MCAPI {
      * @param string $cid the id of the campaign to pause
      * @return boolean true on success
      */
-    function campaignResume($cid) {
+    function campaignResume($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignResume", $params);
@@ -124,7 +132,8 @@ class MCAPI {
      * @param string $cid the id of the campaign to pause
      * @return boolean true on success
      */
-    function campaignPause($cid) {
+    function campaignPause($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignPause", $params);
@@ -141,7 +150,8 @@ class MCAPI {
      * @param string $cid the id of the campaign to resume
      * @return boolean true on success
      */
-    function campaignSendNow($cid) {
+    function campaignSendNow($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignSendNow", $params);
@@ -160,8 +170,8 @@ class MCAPI {
      * @param string $send_type optional by default (null) both formats are sent - "html" or "text" send just that format
      * @return boolean true on success
      */
-    function campaignSendTest($cid, $test_emails=array (
-), $send_type=NULL) {
+    function campaignSendTest($cid, $test_emails = array(), $send_type = NULL)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["test_emails"] = $test_emails;
@@ -182,7 +192,8 @@ class MCAPI {
      * @returnf string layout Layout of the template - "basic", "left_column", "right_column", or "postcard"
      * @returnf array sections associative array of editable sections in the template that can accept custom HTML when sending a campaign
      */
-    function campaignTemplates() {
+    function campaignTemplates()
+    {
         $params = array();
         return $this->callServer("campaignTemplates", $params);
     }
@@ -243,7 +254,8 @@ class MCAPI {
                 Valid Values: any string
      * @return integer total The total number of subscribers matching your segmentation options
      */
-    function campaignSegmentTest($list_id, $options) {
+    function campaignSegmentTest($list_id, $options)
+    {
         $params = array();
         $params["list_id"] = $list_id;
         $params["options"] = $options;
@@ -276,7 +288,7 @@ class MCAPI {
             boolean inline_css optional Whether or not css should be automatically inlined when this campaign is sent, defaults to false.
             boolean generate_text optional Whether of not to auto-generate your Text content from the HTML content. Note that this will be ignored if the Text part of the content passed is not empty, defaults to false.
     
-    * @param array $content the content for this campaign - use a struct with the following keys: 
+     * @param array $content the content for this campaign - use a struct with the following keys: 
                 "html" for pasted HTML content
                 "text" for the plain-text version
                 "url" to have us pull in content from a URL. Note, this will override any other content options - for lists with Email Format options, you'll need to turn on generate_text as well
@@ -285,8 +297,8 @@ class MCAPI {
                 
                 
                 If you chose a template instead of pasting in your HTML content, then use "html_" followed by the template sections as keys - for example, use a key of "html_MAIN" to fill in the "MAIN" section of a template. Supported template sections include: "html_HEADER", "html_MAIN", "html_SIDECOLUMN", and "html_FOOTER"
-    * @param array $segment_opts optional - if you wish to do Segmentation with this campaign this array should contain: see campaignSegmentTest(). It's suggested that you test your options against campaignSegmentTest(). Also, "trans" campaigns <strong>do not</strong> support segmentation.
-    * @param array $type_opts optional - 
+     * @param array $segment_opts optional - if you wish to do Segmentation with this campaign this array should contain: see campaignSegmentTest(). It's suggested that you test your options against campaignSegmentTest(). Also, "trans" campaigns <strong>do not</strong> support segmentation.
+     * @param array $type_opts optional - 
             For RSS Campaigns this, array should contain:
                 string url the URL to pull RSS content from - it will be verified and must exist
                 string schedule optional one of "daily", "weekly", "monthly" - defaults to "daily"
@@ -317,7 +329,8 @@ class MCAPI {
      *
      * @return string the ID for the created campaign
      */
-    function campaignCreate($type, $options, $content, $segment_opts=NULL, $type_opts=NULL) {
+    function campaignCreate($type, $options, $content, $segment_opts = NULL, $type_opts = NULL)
+    {
         $params = array();
         $params["type"] = $type;
         $params["options"] = $options;
@@ -345,7 +358,8 @@ class MCAPI {
      * @param mixed  $value an appropriate value for the parameter ( see campaignCreate() )
      * @return boolean true if the update succeeds, otherwise an error will be thrown
      */
-    function campaignUpdate($cid, $name, $value) {
+    function campaignUpdate($cid, $name, $value)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["name"] = $name;
@@ -354,30 +368,32 @@ class MCAPI {
     }
 
     /** Replicate a campaign.
-    *
-    * @section Campaign  Related
-    *
-    * @example mcapi_campaignReplicate.php
-    *
-    * @param string $cid the Campaign Id to replicate
-    * @return string the id of the replicated Campaign created, otherwise an error will be thrown
-    */
-    function campaignReplicate($cid) {
+     *
+     * @section Campaign  Related
+     *
+     * @example mcapi_campaignReplicate.php
+     *
+     * @param string $cid the Campaign Id to replicate
+     * @return string the id of the replicated Campaign created, otherwise an error will be thrown
+     */
+    function campaignReplicate($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignReplicate", $params);
     }
 
     /** Delete a campaign. Seriously, "poof, gone!" - be careful!
-    *
-    * @section Campaign  Related
-    *
-    * @example mcapi_campaignDelete.php
-    *
-    * @param string $cid the Campaign Id to delete
-    * @return boolean true if the delete succeeds, otherwise an error will be thrown
-    */
-    function campaignDelete($cid) {
+     *
+     * @section Campaign  Related
+     *
+     * @example mcapi_campaignDelete.php
+     *
+     * @param string $cid the Campaign Id to delete
+     * @return boolean true if the delete succeeds, otherwise an error will be thrown
+     */
+    function campaignDelete($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignDelete", $params);
@@ -426,8 +442,8 @@ class MCAPI {
      * @returnf boolean track_opens Whether or not opens for the campaign were tracked
      * @returnf array segment_opts the segment used for the campaign - can be passed to campaignSegmentTest() or campaignCreate()
      */
-    function campaigns($filters=array (
-), $start=0, $limit=25) {
+    function campaigns($filters = array(), $start = 0, $limit = 25)
+    {
         $params = array();
         $params["filters"] = $filters;
         $params["start"] = $start;
@@ -446,7 +462,8 @@ class MCAPI {
      * @returnf integer folder_id Folder Id for the given folder, this can be used in the campaigns() function to filter on.
      * @returnf string name Name of the given folder
      */
-    function campaignFolders() {
+    function campaignFolders()
+    {
         $params = array();
         return $this->callServer("campaignFolders", $params);
     }
@@ -477,7 +494,8 @@ class MCAPI {
      * @returnf integer users_who_clicked Number of unique recipients who clicked on a link in the campaign.
      * @returnf integer emails_sent Number of email addresses campaign was sent to.
      */
-    function campaignStats($cid) {
+    function campaignStats($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignStats", $params);
@@ -496,7 +514,8 @@ class MCAPI {
      * @returnf integer clicks Number of times the specific link was clicked
      * @returnf integer unique Number of unique people who clicked on the specific link
      */
-    function campaignClickStats($cid) {
+    function campaignClickStats($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignClickStats", $params);
@@ -526,7 +545,8 @@ class MCAPI {
      * @returnf integer clicks_pct Percentage of clicks from this domain (whole number)
      * @returnf integer unsubs_pct Percentage of unsubs from this domain (whole number) 
      */
-    function campaignEmailDomainPerformance($cid) {
+    function campaignEmailDomainPerformance($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignEmailDomainPerformance", $params);
@@ -542,7 +562,8 @@ class MCAPI {
      * @param integer    $limit optional for large data sets, the number of results to return - defaults to 1000, upper limit set at 15000
      * @return array Arrays of email addresses with Hard Bounces
      */
-    function campaignHardBounces($cid, $start=0, $limit=1000) {
+    function campaignHardBounces($cid, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -560,7 +581,8 @@ class MCAPI {
      * @param integer    $limit optional for large data sets, the number of results to return - defaults to 1000, upper limit set at 15000
      * @return array Arrays of email addresses with Soft Bounces
      */
-    function campaignSoftBounces($cid, $start=0, $limit=1000) {
+    function campaignSoftBounces($cid, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -578,7 +600,8 @@ class MCAPI {
      * @param integer    $limit optional for large data sets, the number of results to return - defaults to 1000, upper limit set at 15000
      * @return array list of email addresses that unsubscribed from this campaign
      */
-    function campaignUnsubscribes($cid, $start=0, $limit=1000) {
+    function campaignUnsubscribes($cid, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -602,7 +625,8 @@ class MCAPI {
      * @returnf string email the email address that reported abuse
      * @returnf string type an internal type generally specifying the orginating mail provider - may not be useful outside of filling report views
      */
-    function campaignAbuseReports($cid, $since=NULL, $start=0, $limit=500) {
+    function campaignAbuseReports($cid, $since = NULL, $start = 0, $limit = 500)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["since"] = $since;
@@ -624,7 +648,8 @@ class MCAPI {
      * @returnf msg the advice message
      * @returnf type the "type" of the message. one of: negative, positive, or neutral
      */
-    function campaignAdvice($cid) {
+    function campaignAdvice($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignAdvice", $params);
@@ -651,7 +676,8 @@ class MCAPI {
      * @returnf integer ecomm_conversions number Ecommerce transactions tracked
      * @returnf array goals an array containing goal names and number of conversions
      */
-    function campaignAnalytics($cid) {
+    function campaignAnalytics($cid)
+    {
         $params = array();
         $params["cid"] = $cid;
         return $this->callServer("campaignAnalytics", $params);
@@ -675,7 +701,8 @@ class MCAPI {
      * @returnf string email the email address that bounced
      * @returnf string message the entire bounce message received
      */
-    function campaignBounceMessages($cid, $start=0, $limit=25, $since=NULL) {
+    function campaignBounceMessages($cid, $start = 0, $limit = 25, $since = NULL)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -704,7 +731,8 @@ class MCAPI {
      * @returnf order_date string the date the order was tracked - from the store if possible, otherwise the GMT time we recieved it
      * @returnf lines array containing detail of the order - product, category, quantity, item cost
      */
-    function campaignEcommOrders($cid, $start=0, $limit=100, $since=NULL) {
+    function campaignEcommOrders($cid, $start = 0, $limit = 100, $since = NULL)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -733,8 +761,8 @@ class MCAPI {
      * @returnf string secure_url The URL to the shared report, including the password (good for loading in an IFRAME). For non-secure reports, this will not be returned
      * @returnf string password If secured, the password for the report, otherwise this field will not be returned
      */
-    function campaignShareReport($cid, $opts=array (
-)) {
+    function campaignShareReport($cid, $opts = array())
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["opts"] = $opts;
@@ -752,7 +780,8 @@ class MCAPI {
      * @returnf string html The HTML content used for the campgain with merge tags intact
      * @returnf string text The Text content used for the campgain with merge tags intact
      */
-    function campaignContent($cid, $for_archive=true) {
+    function campaignContent($cid, $for_archive = true)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["for_archive"] = $for_archive;
@@ -772,7 +801,8 @@ class MCAPI {
      * @returnf string email Email address that opened the campaign
      * @returnf integer open_count Total number of times the campaign was opened by this email address
      */
-    function campaignOpenedAIM($cid, $start=0, $limit=1000) {
+    function campaignOpenedAIM($cid, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -790,7 +820,8 @@ class MCAPI {
      * @param integer    $limit optional for large data sets, the number of results to return - defaults to 1000, upper limit set at 15000
      * @return array list of email addresses that did not open a campaign
      */
-    function campaignNotOpenedAIM($cid, $start=0, $limit=1000) {
+    function campaignNotOpenedAIM($cid, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -811,7 +842,8 @@ class MCAPI {
      * @returnf string email Email address that opened the campaign
      * @returnf integer clicks Total number of times the URL was clicked on by this email address
      */
-    function campaignClickDetailAIM($cid, $url, $start=0, $limit=1000) {
+    function campaignClickDetailAIM($cid, $url, $start = 0, $limit = 1000)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["url"] = $url;
@@ -832,7 +864,8 @@ class MCAPI {
      * @returnf date timestamp Time the action occurred
      * @returnf string url For clicks, the URL that was clicked
      */
-    function campaignEmailStatsAIM($cid, $email_address) {
+    function campaignEmailStatsAIM($cid, $email_address)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["email_address"] = $email_address;
@@ -854,7 +887,8 @@ class MCAPI {
      * @returnf date timestamp Time the action occurred
      * @returnf string url For clicks, the URL that was clicked
      */
-    function campaignEmailStatsAIMAll($cid, $start=0, $limit=100) {
+    function campaignEmailStatsAIMAll($cid, $start = 0, $limit = 100)
+    {
         $params = array();
         $params["cid"] = $cid;
         $params["start"] = $start;
@@ -889,7 +923,8 @@ class MCAPI {
                 </td></tr></table></div>
      * @return bool true if the data is saved, otherwise an error is thrown.
      */
-    function campaignEcommAddOrder($order) {
+    function campaignEcommAddOrder($order)
+    {
         $params = array();
         $params["order"] = $order;
         return $this->callServer("campaignEcommAddOrder", $params);
@@ -916,7 +951,8 @@ class MCAPI {
      * @returnf string default_subject Default Subject Line for campaigns using this list
      * @returnf string default_language Default Language for this list's forms
      */
-    function lists() {
+    function lists()
+    {
         $params = array();
         return $this->callServer("lists", $params);
     }
@@ -933,7 +969,8 @@ class MCAPI {
      * @returnf char req Denotes whether the field is required (Y) or not (N)
      * @returnf string tag The merge tag that's used for forms and listSubscribe() and listUpdateMember()
      */
-    function listMergeVars($id) {
+    function listMergeVars($id)
+    {
         $params = array();
         $params["id"] = $id;
         return $this->callServer("listMergeVars", $params);
@@ -958,8 +995,8 @@ class MCAPI {
     
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listMergeVarAdd($id, $tag, $name, $req=array (
-)) {
+    function listMergeVarAdd($id, $tag, $name, $req = array())
+    {
         $params = array();
         $params["id"] = $id;
         $params["tag"] = $tag;
@@ -978,7 +1015,8 @@ class MCAPI {
      * @param array $options The options to change for a merge var. See listMergeVarAdd() for valid options
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listMergeVarUpdate($id, $tag, $options) {
+    function listMergeVarUpdate($id, $tag, $options)
+    {
         $params = array();
         $params["id"] = $id;
         $params["tag"] = $tag;
@@ -997,7 +1035,8 @@ class MCAPI {
      * @param string $tag The merge tag to delete
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listMergeVarDel($id, $tag) {
+    function listMergeVarDel($id, $tag)
+    {
         $params = array();
         $params["id"] = $id;
         $params["tag"] = $tag;
@@ -1016,7 +1055,8 @@ class MCAPI {
      * @returnf string form_field Gives the type of interest group: checkbox,radio,select
      * @returnf array groups Array of the group names
      */
-    function listInterestGroups($id) {
+    function listInterestGroups($id)
+    {
         $params = array();
         $params["id"] = $id;
         return $this->callServer("listInterestGroups", $params);
@@ -1032,7 +1072,8 @@ class MCAPI {
      * @param string $group_name the interest group to add
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listInterestGroupAdd($id, $group_name) {
+    function listInterestGroupAdd($id, $group_name)
+    {
         $params = array();
         $params["id"] = $id;
         $params["group_name"] = $group_name;
@@ -1048,7 +1089,8 @@ class MCAPI {
      * @param string $group_name the interest group to delete
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listInterestGroupDel($id, $group_name) {
+    function listInterestGroupDel($id, $group_name)
+    {
         $params = array();
         $params["id"] = $id;
         $params["group_name"] = $group_name;
@@ -1064,7 +1106,8 @@ class MCAPI {
      * @param string $new_name the new interest group name to be set
      * @return bool true if the request succeeds, otherwise an error will be thrown
      */
-    function listInterestGroupUpdate($id, $old_name, $new_name) {
+    function listInterestGroupUpdate($id, $old_name, $new_name)
+    {
         $params = array();
         $params["id"] = $id;
         $params["old_name"] = $old_name;
@@ -1082,7 +1125,8 @@ class MCAPI {
      * @returnf array actions the possible actions and whether they are enabled
      * @returnf array sources the possible sources and whether they are enabled
      */
-    function listWebhooks($id) {
+    function listWebhooks($id)
+    {
         $params = array();
         $params["id"] = $id;
         return $this->callServer("listWebhooks", $params);
@@ -1106,9 +1150,8 @@ class MCAPI {
             boolean api optional actions that happen via API calls, defaults to false
      * @return bool true if the call succeeds, otherwise an exception will be thrown
      */
-    function listWebhookAdd($id, $url, $actions=array (
-), $sources=array (
-)) {
+    function listWebhookAdd($id, $url, $actions = array(), $sources = array())
+    {
         $params = array();
         $params["id"] = $id;
         $params["url"] = $url;
@@ -1125,7 +1168,8 @@ class MCAPI {
      * @param string $url the URL of a Webhook on this list
      * @return boolean true if the call succeeds, otherwise an exception will be thrown
      */
-    function listWebhookDel($id, $url) {
+    function listWebhookDel($id, $url)
+    {
         $params = array();
         $params["id"] = $id;
         $params["url"] = $url;
@@ -1169,7 +1213,8 @@ class MCAPI {
     
      * @return boolean true on success, false on failure. When using MCAPI.class.php, the value can be tested and error messages pulled from the MCAPI object (see below)
      */
-    function listSubscribe($id, $email_address, $merge_vars, $email_type='html', $double_optin=true, $update_existing=false, $replace_interests=true, $send_welcome=false) {
+    function listSubscribe($id, $email_address, $merge_vars, $email_type = 'html', $double_optin = true, $update_existing = false, $replace_interests = true, $send_welcome = false)
+    {
         $params = array();
         $params["id"] = $id;
         $params["email_address"] = $email_address;
@@ -1196,7 +1241,8 @@ class MCAPI {
      * @param boolean $send_notify flag to send the unsubscribe notification email to the address defined in the list email notification settings, defaults to true
      * @return boolean true on success, false on failure. When using MCAPI.class.php, the value can be tested and error messages pulled from the MCAPI object (see below)
      */
-    function listUnsubscribe($id, $email_address, $delete_member=false, $send_goodbye=true, $send_notify=true) {
+    function listUnsubscribe($id, $email_address, $delete_member = false, $send_goodbye = true, $send_notify = true)
+    {
         $params = array();
         $params["id"] = $id;
         $params["email_address"] = $email_address;
@@ -1219,7 +1265,8 @@ class MCAPI {
      * @param boolean $replace_interests flag to determine whether we replace the interest groups with the updated groups provided, or we add the provided groups to the member's interest groups (optional, defaults to true)
      * @return boolean true on success, false on failure. When using MCAPI.class.php, the value can be tested and error messages pulled from the MCAPI object
      */
-    function listUpdateMember($id, $email_address, $merge_vars, $email_type='', $replace_interests=true) {
+    function listUpdateMember($id, $email_address, $merge_vars, $email_type = '', $replace_interests = true)
+    {
         $params = array();
         $params["id"] = $id;
         $params["email_address"] = $email_address;
@@ -1247,7 +1294,8 @@ class MCAPI {
      * @returnf integer error_count Number of email addresses that failed during addition/updating
      * @returnf array errors Array of error structs. Each error struct will contain "code", "message", and the full struct that failed
      */
-    function listBatchSubscribe($id, $batch, $double_optin=true, $update_existing=false, $replace_interests=true) {
+    function listBatchSubscribe($id, $batch, $double_optin = true, $update_existing = false, $replace_interests = true)
+    {
         $params = array();
         $params["id"] = $id;
         $params["batch"] = $batch;
@@ -1273,7 +1321,8 @@ class MCAPI {
      * @returnf integer error_count Number of email addresses that failed during addition/updating
      * @returnf array errors Array of error structs. Each error struct will contain "code", "message", and "email"
      */
-    function listBatchUnsubscribe($id, $emails, $delete_member=false, $send_goodbye=true, $send_notify=false) {
+    function listBatchUnsubscribe($id, $emails, $delete_member = false, $send_goodbye = true, $send_notify = false)
+    {
         $params = array();
         $params["id"] = $id;
         $params["emails"] = $emails;
@@ -1298,7 +1347,8 @@ class MCAPI {
      * @returnf string email Member email address
      * @returnf date timestamp timestamp of their associated status date (subscribed, unsubscribed, cleaned, or updated) in GMT
      */
-    function listMembers($id, $status='subscribed', $since=NULL, $start=0, $limit=100) {
+    function listMembers($id, $status = 'subscribed', $since = NULL, $start = 0, $limit = 100)
+    {
         $params = array();
         $params["id"] = $id;
         $params["status"] = $status;
@@ -1328,7 +1378,8 @@ class MCAPI {
      * @returnf array lists An associative array of the other lists this member belongs to - the key is the list id and the value is their status in that list.
      * @returnf date timestamp The time this email address was added to the list
      */
-    function listMemberInfo($id, $email_address) {
+    function listMemberInfo($id, $email_address)
+    {
         $params = array();
         $params["id"] = $id;
         $params["email_address"] = $email_address;
@@ -1352,7 +1403,8 @@ class MCAPI {
      * @returnf string campaign_id the unique id for the campaign that reporte was made against
      * @returnf string type an internal type generally specifying the orginating mail provider - may not be useful outside of filling report views
      */
-    function listAbuseReports($id, $start=0, $limit=500, $since=NULL) {
+    function listAbuseReports($id, $start = 0, $limit = 500, $since = NULL)
+    {
         $params = array();
         $params["id"] = $id;
         $params["start"] = $start;
@@ -1375,7 +1427,8 @@ class MCAPI {
      * @returnf integer imports number of subscribers imported during the month
      * @returnf integer optins number of subscribers who opted-in during the month
      */
-    function listGrowthHistory($id) {
+    function listGrowthHistory($id)
+    {
         $params = array();
         $params["id"] = $id;
         return $this->callServer("listGrowthHistory", $params);
@@ -1397,7 +1450,8 @@ class MCAPI {
      * @returnf string user_id Your User Unique Id. 
      * @returnf string url Your Monkey Rewards link for our Affiliate program
      */
-    function getAffiliateInfo() {
+    function getAffiliateInfo()
+    {
         $params = array();
         return $this->callServer("getAffiliateInfo", $params);
     }
@@ -1428,7 +1482,8 @@ class MCAPI {
      * @returnf array addons Addons installed in the account and the date they were installed.
      * @returnf array orders Order details for the account, include order_id, type, cost, date/time, and any credits applied to the order
      */
-    function getAccountDetails() {
+    function getAccountDetails()
+    {
         $params = array();
         return $this->callServer("getAccountDetails", $params);
     }
@@ -1443,7 +1498,8 @@ class MCAPI {
      * @param mixed $content The content to use. For "html" expects  a single string value, "template" expects an array like you send to campaignCreate, "url" expects a valid & public URL to pull from, "cid" expects a valid Campaign Id, and "tid" expects a valid Template Id on your account.
      * @return string the content pass in converted to text.
      */
-    function generateText($type, $content) {
+    function generateText($type, $content)
+    {
         $params = array();
         $params["type"] = $type;
         $params["content"] = $content;
@@ -1460,7 +1516,8 @@ class MCAPI {
      * @param bool $strip_css optional Whether you want the CSS &lt;style&gt; tags stripped from the returned document. Defaults to false.
      * @return string Your HTML content with all CSS inlined, just like if we sent it.
      */
-    function inlineCss($html, $strip_css=false) {
+    function inlineCss($html, $strip_css = false)
+    {
         $params = array();
         $params["html"] = $html;
         $params["strip_css"] = $strip_css;
@@ -1477,7 +1534,8 @@ class MCAPI {
      * @param string $name a unique name for a folder
      * @return integer the folder_id of the newly created folder.
      */
-    function createFolder($name) {
+    function createFolder($name)
+    {
         $params = array();
         $params["name"] = $name;
         return $this->callServer("createFolder", $params);
@@ -1498,7 +1556,8 @@ class MCAPI {
      * @returnf string created_at The date the key was created
      * @returnf string expired_at The date the key was expired
      */
-    function apikeys($username, $password, $expired=false) {
+    function apikeys($username, $password, $expired = false)
+    {
         $params = array();
         $params["username"] = $username;
         $params["password"] = $password;
@@ -1516,7 +1575,8 @@ class MCAPI {
      * @param string $password Your MailChimp password
      * @return string a new API Key that can be immediately used.
      */
-    function apikeyAdd($username, $password) {
+    function apikeyAdd($username, $password)
+    {
         $params = array();
         $params["username"] = $username;
         $params["password"] = $password;
@@ -1537,7 +1597,8 @@ class MCAPI {
      * @param string $password Your MailChimp password
      * @return boolean true if it worked, otherwise an error is thrown.
      */
-    function apikeyExpire($username, $password) {
+    function apikeyExpire($username, $password)
+    {
         $params = array();
         $params["username"] = $username;
         $params["password"] = $password;
@@ -1554,7 +1615,8 @@ class MCAPI {
      *
      * @return string returns "Everything's Chimpy!" if everything is chimpy, otherwise returns an error message
      */
-    function ping() {
+    function ping()
+    {
         $params = array();
         return $this->callServer("ping", $params);
     }
@@ -1564,101 +1626,102 @@ class MCAPI {
      * @param mixed Method to call, with any parameters to pass along
      * @return mixed the result of the call
      */
-    function callMethod() {
+    function callMethod()
+    {
         $params = array();
         return $this->callServer("callMethod", $params);
     }
-    
+
     /**
      * Actually connect to the server and call the requested methods, parsing the result
      * You should never have to call this function manually
      */
-    function callServer($method, $params) {
-    	//Always include the apikey if we are not logging in
-    	if($method != "login") {
-    	    $dc = "us1";
-    	    if (strstr($this->api_key,"-")){
-            	list($key, $dc) = explode("-",$this->api_key,2);
+    function callServer($method, $params)
+    {
+        //Always include the apikey if we are not logging in
+        if ($method != "login") {
+            $dc = "us1";
+            if (strstr($this->api_key, "-")) {
+                list($key, $dc) = explode("-", $this->api_key, 2);
                 if (!$dc) $dc = "us1";
             }
-            $host = $dc.".".$this->apiUrl["host"];
-    		$params["apikey"] = $this->api_key;
-    	} else {
-        	$host = $this->apiUrl["host"];
-    	}
+            $host = $dc . "." . $this->apiUrl["host"];
+            $params["apikey"] = $this->api_key;
+        } else {
+            $host = $this->apiUrl["host"];
+        }
         $this->errorMessage = "";
         $this->errorCode = "";
         $post_vars = $this->httpBuildQuery($params);
-        
+
         $payload = "POST " . $this->apiUrl["path"] . "?" . $this->apiUrl["query"] . "&method=" . $method . " HTTP/1.0\r\n";
         $payload .= "Host: " . $host . "\r\n";
-        $payload .= "User-Agent: MCAPI/" . $this->version ."\r\n";
+        $payload .= "User-Agent: MCAPI/" . $this->version . "\r\n";
         $payload .= "Content-type: application/x-www-form-urlencoded\r\n";
         $payload .= "Content-length: " . strlen($post_vars) . "\r\n";
         $payload .= "Connection: close \r\n\r\n";
         $payload .= $post_vars;
-        
+
         ob_start();
-        if ($this->secure){
-            $sock = fsockopen("ssl://".$host, 443, $errno, $errstr, $this->timeout);
+        if ($this->secure) {
+            $sock = fsockopen("ssl://" . $host, 443, $errno, $errstr, $this->timeout);
         } else {
             $sock = fsockopen($host, 80, $errno, $errstr, $this->timeout);
         }
-        if(!$sock) {
+        if (!$sock) {
             $this->errorMessage = "Could not connect (ERR $errno: $errstr)";
             $this->errorCode = "-99";
             ob_end_clean();
             return false;
         }
-        
+
         $response = "";
         fwrite($sock, $payload);
-        while(!feof($sock)) {
+        while (!feof($sock)) {
             $response .= fread($sock, $this->chunkSize);
         }
         fclose($sock);
         ob_end_clean();
-        
+
         list($throw, $response) = explode("\r\n\r\n", $response, 2);
-        
-        if(ini_get("magic_quotes_runtime")) $response = stripslashes($response);
-        
+
+        if (ini_get("magic_quotes_runtime")) $response = stripslashes($response);
+
         $serial = unserialize($response);
-        if($response && $serial === false) {
-        	$response = array("error" => "Bad Response.  Got This: " . $response, "code" => "-99");
+        if ($response && $serial === false) {
+            $response = array("error" => "Bad Response.  Got This: " . $response, "code" => "-99");
         } else {
-        	$response = $serial;
+            $response = $serial;
         }
-        if(is_array($response) && isset($response["error"])) {
+        if (is_array($response) && isset($response["error"])) {
             $this->errorMessage = $response["error"];
             $this->errorCode = $response["code"];
             return false;
         }
-        
+
         return $response;
     }
-    
+
     /**
      * Re-implement http_build_query for systems that do not already have it
      */
-    function httpBuildQuery($params, $key=null) {
+    function httpBuildQuery($params, $key = null)
+    {
         $ret = array();
-        
-        foreach((array) $params as $name => $val) {
+
+        foreach ((array) $params as $name => $val) {
             $name = urlencode($name);
-            if($key !== null) {
+            if ($key !== null) {
                 $name = $key . "[" . $name . "]";
             }
-            
-            if(is_array($val) || is_object($val)) {
+
+            if (is_array($val) || is_object($val)) {
                 $ret[] = $this->httpBuildQuery($val, $name);
-            } elseif($val !== null) {
+            } elseif ($val !== null) {
                 $ret[] = $name . "=" . urlencode($val);
             }
         }
-        
+
         return implode("&", $ret);
     }
 }
-
-?>

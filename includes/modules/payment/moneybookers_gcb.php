@@ -15,12 +15,12 @@
   }
 
   class moneybookers_gcb extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersGCB_ID';
-    var $_payment_method = 'GCB';
-    var $_payment_method_image = 'cartebleue.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersGCB_ID';
+    public $_payment_method = 'GCB';
+    public $_payment_method_image = 'cartebleue.gif';
 
 // class constructor
     function __construct() {

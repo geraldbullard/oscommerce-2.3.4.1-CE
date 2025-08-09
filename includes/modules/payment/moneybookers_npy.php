@@ -15,12 +15,12 @@
   }
 
   class moneybookers_npy extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersNPY_ID';
-    var $_payment_method = 'NPY';
-    var $_payment_method_image = 'eps.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersNPY_ID';
+    public $_payment_method = 'NPY';
+    public $_payment_method_image = 'eps.gif';
 
 // class constructor
     function __construct() {

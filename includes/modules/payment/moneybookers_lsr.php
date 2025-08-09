@@ -15,12 +15,12 @@
   }
 
   class moneybookers_lsr extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersLSR_ID';
-    var $_payment_method = 'LSR';
-    var $_payment_method_image = 'laser.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersLSR_ID';
+    public $_payment_method = 'LSR';
+    public $_payment_method_image = 'laser.gif';
 
 // class constructor
     function __construct() {

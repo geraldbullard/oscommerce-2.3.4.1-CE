@@ -15,12 +15,12 @@
   }
 
   class moneybookers_pli extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersPLI_ID';
-    var $_payment_method = 'PLI';
-    var $_payment_method_image = 'poli.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersPLI_ID';
+    public $_payment_method = 'PLI';
+    public $_payment_method_image = 'poli.gif';
 
 // class constructor
     function __construct() {

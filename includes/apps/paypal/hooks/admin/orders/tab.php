@@ -16,6 +16,8 @@ if (!class_exists('OSCOM_PayPal')) {
 
 class paypal_hook_admin_orders_tab
 {
+    public $_app;
+    
     function __construct()
     {
         global $OSCOM_PayPal;

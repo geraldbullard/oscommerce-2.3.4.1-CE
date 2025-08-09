@@ -696,10 +696,11 @@ function tep_parse_search_string(&$objects, $search_str = '')
                 $objects[] = $post_objects[$j];
             }
         } else {
-            /* This means that the $piece is either the beginning or the end of a string.
-   So, we'll slurp up the $pieces and stick them together until we get to the
-   end of the string or run out of pieces.
-*/
+            /* 
+            This means that the $piece is either the beginning or the end of a string.
+            So, we'll slurp up the $pieces and stick them together until we get to the
+            end of the string or run out of pieces.
+            */
 
             // Add this word to the $tmpstring, starting the $tmpstring
             $tmpstring = trim(preg_replace('/"/', ' ', $pieces[$k]));
@@ -1446,14 +1447,14 @@ function tep_convert_linefeeds($from, $to, $string)
     }
 }
 
-function tep_format_date_php8($timestamp, $format = IntlDateFormatter::LONG, $locale = 'en_US', $timezone = null)
-{
-    $timezone = $timezone ?? date_default_timezone_get();
-    $formatter = new IntlDateFormatter($locale, $format, IntlDateFormatter::NONE, $timezone);
-    return $formatter->format($timestamp);
-}
-
 function tep_get_url_page_value()
 {
     return (isset($_GET['page']) && $_GET['page'] > '1' ? $_GET['page'] : '1');
+}
+
+function tep_format_date_php8($timestamp, $dateFormat = IntlDateFormatter::LONG, $locale = 'en_US', $timezone = null, $timeFormat = IntlDateFormatter::NONE)
+{
+    $timezone  = $timezone ?? date_default_timezone_get();
+    $formatter = new IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone);
+    return $formatter->format($timestamp);
 }

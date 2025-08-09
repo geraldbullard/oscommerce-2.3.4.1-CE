@@ -15,12 +15,12 @@
   }
 
   class moneybookers_ent extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersENT_ID';
-    var $_payment_method = 'ENT';
-    var $_payment_method_image = 'enets.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersENT_ID';
+    public $_payment_method = 'ENT';
+    public $_payment_method_image = 'enets.gif';
 
 // class constructor
     function __construct() {

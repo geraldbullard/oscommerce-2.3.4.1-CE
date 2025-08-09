@@ -11,12 +11,12 @@
 */
 
   class d_partner_news {
-    var $code;
-    var $group;
-    var $title;
-    var $description;
-    var $sort_order;
-    var $enabled = false;
+    public $code;
+    public $group;
+    public $title;
+    public $description;
+    public $sort_order;
+    public $enabled = false;
 
     function __construct() {
       $this->code = get_class($this);

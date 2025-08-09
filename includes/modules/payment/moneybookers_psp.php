@@ -15,12 +15,12 @@
   }
 
   class moneybookers_psp extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersPSP_ID';
-    var $_payment_method = 'PSP';
-    var $_payment_method_image = 'postepay.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersPSP_ID';
+    public $_payment_method = 'PSP';
+    public $_payment_method_image = 'postepay.gif';
 
 // class constructor
     function __construct() {

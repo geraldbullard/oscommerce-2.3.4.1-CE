@@ -153,7 +153,7 @@ function tep_date_long($raw_date)
     $minute = (int)substr($raw_date, 14, 2);
     $second = (int)substr($raw_date, 17, 2);
 
-    return strftime(DATE_FORMAT_LONG, mktime($hour, $minute, $second, $month, $day, $year));
+    return tep_format_date_php8(mktime($hour, $minute, $second, $month, $day, $year), IntlDateFormatter::LONG);
 }
 
 ////
@@ -171,11 +171,7 @@ function tep_date_short($raw_date)
     $minute = (int)substr($raw_date, 14, 2);
     $second = (int)substr($raw_date, 17, 2);
 
-    if (@date('Y', mktime($hour, $minute, $second, $month, $day, $year)) == $year) {
-        return date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
-    } else {
-        return preg_replace('/2037$/', $year, date(DATE_FORMAT, mktime($hour, $minute, $second, $month, $day, 2037)));
-    }
+    return tep_format_date_php8(mktime($hour, $minute, $second, $month, $day, $year), IntlDateFormatter::SHORT);
 }
 
 function tep_datetime_short($raw_datetime)
@@ -189,7 +185,14 @@ function tep_datetime_short($raw_datetime)
     $minute = (int)substr($raw_datetime, 14, 2);
     $second = (int)substr($raw_datetime, 17, 2);
 
-    return strftime(DATE_TIME_FORMAT, mktime($hour, $minute, $second, $month, $day, $year));
+    // Use date+time formatting
+    return tep_format_date_php8(
+        mktime($hour, $minute, $second, $month, $day, $year),
+        IntlDateFormatter::SHORT, // Date format
+        'en_US',                  // Locale
+        null,                     // Timezone (default)
+        IntlDateFormatter::SHORT  // Time format
+    );
 }
 
 function tep_get_category_tree($parent_id = '0', $spacing = '', $exclude = '', $category_tree_array = '', $include_itself = false)
@@ -1715,7 +1718,6 @@ function tep_draw_products($name, $parameters = '', $exclude = '')
     return $select_string;
 }
 
-
 function tep_draw_customers($name, $parameters = '')
 {
     $select_string = '<select name="' . $name . '"';
@@ -1735,7 +1737,14 @@ function tep_draw_customers($name, $parameters = '')
     return $select_string;
 }
 
-function tep_get_url_page_value() 
+function tep_get_url_page_value()
 {
     return (isset($_GET['page']) && $_GET['page'] > '1' ? $_GET['page'] : '1');
+}
+
+function tep_format_date_php8($timestamp, $dateFormat = IntlDateFormatter::LONG, $locale = 'en_US', $timezone = null, $timeFormat = IntlDateFormatter::NONE)
+{
+    $timezone  = $timezone ?? date_default_timezone_get();
+    $formatter = new IntlDateFormatter($locale, $dateFormat, $timeFormat, $timezone);
+    return $formatter->format($timestamp);
 }

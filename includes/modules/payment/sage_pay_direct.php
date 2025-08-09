@@ -11,7 +11,7 @@
 */
 
   class sage_pay_direct {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
     function __construct() {
       global $PHP_SELF, $order;

@@ -15,12 +15,12 @@
   }
 
   class moneybookers_msc extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersMSC_ID';
-    var $_payment_method = 'MSC';
-    var $_payment_method_image = '4b.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersMSC_ID';
+    public $_payment_method = 'MSC';
+    public $_payment_method_image = '4b.gif';
 
 // class constructor
     function __construct() {

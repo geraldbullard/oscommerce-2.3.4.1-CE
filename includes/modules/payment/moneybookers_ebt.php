@@ -15,12 +15,12 @@
   }
 
   class moneybookers_ebt extends moneybookers {
-    var $code, $title, $description, $enabled;
+    public $code, $title, $description, $enabled;
 
-    var $_sid; // Moneybookers transaction session ID
-    var $_mbcartID = 'cart_MoneybookersEBT_ID';
-    var $_payment_method = 'EBT';
-    var $_payment_method_image = 'nordea.gif';
+    public $_sid; // Moneybookers transaction session ID
+    public $_mbcartID = 'cart_MoneybookersEBT_ID';
+    public $_payment_method = 'EBT';
+    public $_payment_method_image = 'nordea.gif';
 
 // class constructor
     function __construct() {

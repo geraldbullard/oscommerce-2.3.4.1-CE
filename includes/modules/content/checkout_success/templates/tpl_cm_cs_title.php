@@ -11,8 +11,7 @@
 */
 ?>
 <div class="col-sm-<?php echo $content_width; ?> cm-cs-title">
-  <div class="page-header">
-    <h1 class="h3"><?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_PUBLIC_TITLE; ?></h1>
-  </div>
+    <div class="page-header">
+        <h1 class="h3"><?php echo MODULE_CONTENT_CHECKOUT_SUCCESS_TITLE_PUBLIC_TITLE; ?></h1>
+    </div>
 </div>
-    

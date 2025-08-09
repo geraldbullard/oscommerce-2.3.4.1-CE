@@ -10,54 +10,62 @@
   Released under the GNU General Public License
 */
 
-  class ot_tax {
+class ot_tax
+{
     public $title, $output, $code, $description, $enabled, $sort_order;
 
-    function __construct() {
-      $this->code = 'ot_tax';
-      $this->title = MODULE_ORDER_TOTAL_TAX_TITLE;
-      $this->description = MODULE_ORDER_TOTAL_TAX_DESCRIPTION;
-      
-      if ( defined('MODULE_ORDER_TOTAL_TAX_STATUS') ) {
-        $this->enabled = ((MODULE_ORDER_TOTAL_TAX_STATUS == 'true') ? true : false);
-        $this->sort_order = MODULE_ORDER_TOTAL_TAX_SORT_ORDER;
-      }
+    function __construct()
+    {
+        $this->code = 'ot_tax';
+        $this->title = MODULE_ORDER_TOTAL_TAX_TITLE;
+        $this->description = MODULE_ORDER_TOTAL_TAX_DESCRIPTION;
 
-      $this->output = array();
-    }
-
-    function process() {
-      global $order, $currencies;
-
-      foreach($order->info['tax_groups'] as $key => $value) {
-        if ($value > 0) {
-          $this->output[] = array('title' => $key . ':',
-                                  'text' => $currencies->format($value, true, $order->info['currency'], $order->info['currency_value']),
-                                  'value' => $value);
+        if (defined('MODULE_ORDER_TOTAL_TAX_STATUS')) {
+            $this->enabled = ((MODULE_ORDER_TOTAL_TAX_STATUS == 'true') ? true : false);
+            $this->sort_order = MODULE_ORDER_TOTAL_TAX_SORT_ORDER;
         }
-      }
+
+        $this->output = array();
     }
 
-    function check() {
-      if (!isset($this->_check)) {
-        $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_ORDER_TOTAL_TAX_STATUS'");
-        $this->_check = tep_db_num_rows($check_query);
-      }
+    function process()
+    {
+        global $order, $currencies;
 
-      return $this->_check;
+        foreach ($order->info['tax_groups'] as $key => $value) {
+            if ($value > 0) {
+                $this->output[] = array(
+                    'title' => $key . ':',
+                    'text' => $currencies->format($value, true, $order->info['currency'], $order->info['currency_value']),
+                    'value' => $value
+                );
+            }
+        }
     }
 
-    function keys() {
-      return array('MODULE_ORDER_TOTAL_TAX_STATUS', 'MODULE_ORDER_TOTAL_TAX_SORT_ORDER');
+    function check()
+    {
+        if (!isset($this->_check)) {
+            $check_query = tep_db_query("select configuration_value from " . TABLE_CONFIGURATION . " where configuration_key = 'MODULE_ORDER_TOTAL_TAX_STATUS'");
+            $this->_check = tep_db_num_rows($check_query);
+        }
+
+        return $this->_check;
     }
 
-    function install() {
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Display Tax', 'MODULE_ORDER_TOTAL_TAX_STATUS', 'true', 'Do you want to display the order tax value?', '6', '1','tep_cfg_select_option(array(\'true\', \'false\'), ', now())");
-      tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ORDER_TOTAL_TAX_SORT_ORDER', '3', 'Sort order of display.', '6', '2', now())");
+    function keys()
+    {
+        return array('MODULE_ORDER_TOTAL_TAX_STATUS', 'MODULE_ORDER_TOTAL_TAX_SORT_ORDER');
     }
 
-    function remove() {
-      tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+    function install()
+    {
+        tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('Display Tax', 'MODULE_ORDER_TOTAL_TAX_STATUS', 'true', 'Do you want to display the order tax value?', '6', '1','tep_cfg_select_option(array(\'true\', \'false\'), ', now())");
+        tep_db_query("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added) values ('Sort Order', 'MODULE_ORDER_TOTAL_TAX_SORT_ORDER', '3', 'Sort order of display.', '6', '2', now())");
     }
-  }
-?>
+
+    function remove()
+    {
+        tep_db_query("delete from " . TABLE_CONFIGURATION . " where configuration_key in ('" . implode("', '", $this->keys()) . "')");
+    }
+}
