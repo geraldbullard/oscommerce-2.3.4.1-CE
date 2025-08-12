@@ -191,12 +191,14 @@ if ($dir = @dir($module_directory)) {
             ?>
                     <td class="dataTableContent"><?php echo $module->title; ?></td>
                     <td class="dataTableContent" align="right"><?php if (in_array($module->code . $file_extension, $modules_installed) && is_numeric($module->sort_order)) echo $module->sort_order; ?></td>
-                    <td class="dataTableContent" align="right"><?php if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code)) {
-                                                                    echo tep_image('images/icon_arrow_right.gif');
-                                                                } else {
-                                                                    echo '<a href="' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>';
-                                                                } ?>&nbsp;</td>
-                    </tr>
+                    <td class="dataTableContent" align="right">
+                        <?php if (isset($mInfo) && is_object($mInfo) && ($class == $mInfo->code)) {
+                            echo tep_image('images/icon_arrow_right.gif');
+                        } else {
+                            echo '<a href="' . tep_href_link('modules.php', 'set=' . $set . (isset($_GET['list']) ? '&list=new' : '') . '&module=' . $class) . '">' . tep_image('images/icon_info.gif', IMAGE_ICON_INFO) . '</a>';
+                        } ?>&nbsp;
+                    </td>
+                </tr>
             <?php
                 }
             }
@@ -329,4 +331,3 @@ if ($dir = @dir($module_directory)) {
 
     require('includes/template_bottom.php');
     require('includes/application_bottom.php');
-    ?>
